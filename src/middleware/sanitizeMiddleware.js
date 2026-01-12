@@ -1,8 +1,15 @@
 const mongoSanitize = require('express-mongo-sanitize');
-const { createDOMPurify } = require('isomorphic-dompurify');
 const validator = require('validator');
 
-const DOMPurify = createDOMPurify();
+// Use a simpler approach for XSS protection that doesn't require DOM
+const escapeHtml = (unsafe) => {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+};
 
 // MongoDB injection protection
 exports.sanitizeMongo = mongoSanitize({
@@ -16,11 +23,12 @@ exports.sanitizeMongo = mongoSanitize({
 exports.sanitizeInput = (req, res, next) => {
   const sanitizeValue = (value) => {
     if (typeof value === 'string') {
-      // Remove any HTML tags and scripts
-      return DOMPurify.sanitize(value, { 
-        ALLOWED_TAGS: [], 
-        ALLOWED_ATTR: [] 
-      });
+      // Remove any HTML tags and scripts using simple regex
+      // Strip all HTML tags
+      let sanitized = value.replace(/<[^>]*>/g, '');
+      // Remove script content
+      sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+      return sanitized;
     }
     return value;
   };

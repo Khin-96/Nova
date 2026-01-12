@@ -73,6 +73,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const DELIVERY_FEE = 450; // KES for locations outside Mombasa/Kilifi
   const VALID_SIZES = ["S", "M", "L", "XL"]; // Define valid sizes
 
+  // Auth token management (optional - for future features)
+  function getAuthToken() {
+    return localStorage.getItem('userToken');
+  }
+
+  function getAuthHeaders() {
+    const token = getAuthToken();
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+  }
+
   // --- Initialize ---
   updateCartUI();
   showHomePage();

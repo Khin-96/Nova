@@ -11,6 +11,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const sendNewsletterForm = document.getElementById("send-newsletter-form");
   const newsletterResponseMessageDiv = document.getElementById("newsletter-response-message");
 
+  // Auth token management
+  function getAuthToken() {
+    return localStorage.getItem('adminToken');
+  }
+
+  function setAuthToken(token) {
+    localStorage.setItem('adminToken', token);
+  }
+
+  function removeAuthToken() {
+    localStorage.removeItem('adminToken');
+  }
+
+  function getAuthHeaders() {
+    const token = getAuthToken();
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+  }
+
   // Tab switching
   tabButtons.forEach(button => {
     button.addEventListener("click", () => {
@@ -191,7 +209,9 @@ document.addEventListener("DOMContentLoaded", () => {
         '<div class="text-center py-4"><i class="fas fa-spinner fa-spin mr-2"></i>Loading orders...</div>';
       
       const endpoint = status === "all" ? "/api/orders" : `/api/orders?status=${status}`;
-      const response = await fetch(`${API_BASE_URL}${endpoint}?nocache=${Date.now()}`);
+      const response = await fetch(`${API_BASE_URL}${endpoint}?nocache=${Date.now()}`, {
+        headers: getAuthHeaders()
+      });
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -318,6 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         const response = await fetch(`${API_BASE_URL}/api/products`, {
           method: "POST",
+          headers: getAuthHeaders(),
           body: formData,
         });
 
@@ -358,6 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/products/${productId}`, {
         method: "DELETE",
+        headers: getAuthHeaders(),
       });
 
       const result = await response.json();
@@ -393,8 +415,13 @@ document.addEventListener("DOMContentLoaded", () => {
     button.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Updating...';
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}/deliver`, {
-        method: "PATCH",
+      const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}/status`, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders()
+        },
+        body: JSON.stringify({ status: 'delivered', note: 'Marked as delivered by admin' })
       });
 
       const result = await response.json();
@@ -437,6 +464,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}`, {
         method: "DELETE",
+        headers: getAuthHeaders()
       });
 
       const result = await response.json();
