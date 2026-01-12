@@ -15,6 +15,10 @@ const contactRoutes = require("./src/routes/contactRoutes");
 const subscriptionRoutes = require("./src/routes/subscriptionRoutes");
 const mpesaRoutes = require("./src/routes/mpesaRoutes");
 const authRoutes = require("./src/routes/authRoutes");
+const orderRoutes = require("./src/routes/orderRoutes");
+const reviewRoutes = require("./src/routes/reviewRoutes");
+const userRoutes = require("./src/routes/userRoutes");
+const recommendationRoutes = require("./src/routes/recommendationRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -100,6 +104,10 @@ app.use("/api", productRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api", subscriptionRoutes);
 app.use("/api/mpesa", mpesaRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/recommendations", recommendationRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
