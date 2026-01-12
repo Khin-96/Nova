@@ -135,7 +135,7 @@ router.get('/product/:productId', async (req, res) => {
 
     // Get rating distribution
     const ratingDistribution = await Review.aggregate([
-      { $match: { product: mongoose.Types.ObjectId(req.params.productId), reported: false } },
+      { $match: { product: new mongoose.Types.ObjectId(req.params.productId), reported: false } },
       {
         $group: {
           _id: '$rating',

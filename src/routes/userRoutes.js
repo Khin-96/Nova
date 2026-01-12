@@ -207,6 +207,11 @@ router.post('/view-history/:productId', authenticateToken, async (req, res) => {
       viewedAt: new Date()
     });
 
+    // Limit to last 50 items (already handled in User model pre-save hook, but ensure here too)
+    if (user.viewHistory.length > 50) {
+      user.viewHistory = user.viewHistory.slice(-50);
+    }
+
     await user.save();
 
     // Also increment product view count

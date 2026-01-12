@@ -3,6 +3,9 @@ const Order = require('../models/Order');
 const User = require('../models/User');
 const mongoose = require('mongoose');
 
+// Constants
+const OUT_OF_STOCK_TAG = 'out-of-stock';
+
 /**
  * Get personalized recommendations based on user behavior
  * Uses collaborative filtering approach
@@ -33,7 +36,7 @@ const getPersonalizedRecommendations = async (userId, limit = 10) => {
     const recommendations = await Product.find({
       _id: { $nin: interactedProductIds }, // Exclude already viewed/wishlisted
       category: { $in: userCategories },
-      'tags': { $ne: 'out-of-stock' }
+      'tags': { $ne: OUT_OF_STOCK_TAG }
     })
       .sort({ rating: -1, salesCount: -1 }) // Prioritize high-rated and popular items
       .limit(limit);
@@ -61,7 +64,7 @@ const getSimilarProducts = async (productId, limit = 6) => {
     // Build similarity query
     const query = {
       _id: { $ne: productId }, // Exclude the product itself
-      'tags': { $ne: 'out-of-stock' }
+      'tags': { $ne: OUT_OF_STOCK_TAG }
     };
 
     // Prioritize same category
@@ -83,7 +86,7 @@ const getSimilarProducts = async (productId, limit = 6) => {
           $ne: productId,
           $nin: similarProducts.map(p => p._id)
         },
-        'tags': { $ne: 'out-of-stock' }
+        'tags': { $ne: OUT_OF_STOCK_TAG }
       })
         .sort({ rating: -1, salesCount: -1 })
         .limit(limit - similarProducts.length);
@@ -137,7 +140,7 @@ const getFrequentlyBoughtTogether = async (productId, limit = 4) => {
     // Fetch product details
     const products = await Product.find({
       _id: { $in: sortedProducts },
-      'tags': { $ne: 'out-of-stock' }
+      'tags': { $ne: OUT_OF_STOCK_TAG }
     });
 
     // Sort by original frequency order
@@ -164,7 +167,7 @@ const getTrendingProducts = async (limit = 10) => {
 
     // Get products with recent activity
     const trendingProducts = await Product.find({
-      'tags': { $ne: 'out-of-stock' },
+      'tags': { $ne: OUT_OF_STOCK_TAG },
       updatedAt: { $gte: sevenDaysAgo }
     })
       .sort({ 
@@ -188,7 +191,7 @@ const getTrendingProducts = async (limit = 10) => {
 const getNewArrivals = async (limit = 10) => {
   try {
     const newProducts = await Product.find({
-      'tags': { $ne: 'out-of-stock' }
+      'tags': { $ne: OUT_OF_STOCK_TAG }
     })
       .sort({ createdAt: -1 })
       .limit(limit);
@@ -208,7 +211,7 @@ const getNewArrivals = async (limit = 10) => {
 const getBestsellers = async (limit = 10) => {
   try {
     const bestsellers = await Product.find({
-      'tags': { $ne: 'out-of-stock' }
+      'tags': { $ne: OUT_OF_STOCK_TAG }
     })
       .sort({ 
         salesCount: -1,
@@ -232,7 +235,7 @@ const getRecommendedByCategory = async (category, excludeIds = [], limit = 10) =
     const products = await Product.find({
       category,
       _id: { $nin: excludeIds },
-      'tags': { $ne: 'out-of-stock' }
+      'tags': { $ne: OUT_OF_STOCK_TAG }
     })
       .sort({ rating: -1, salesCount: -1 })
       .limit(limit);

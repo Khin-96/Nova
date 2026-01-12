@@ -272,14 +272,21 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     // Mark as cancelled instead of deleting
     await order.updateStatus('cancelled', 'Cancelled by ' + (isAdminUser ? 'admin' : 'customer'));
 
-    // Restore inventory
-    for (const item of order.items) {
-      const product = await Product.findById(item.product);
-      if (product) {
-        product.inventory[item.size] += item.quantity;
-        product.salesCount -= item.quantity;
-        await product.save();
+    // Restore inventory using bulkWrite for better performance
+    const bulkOps = order.items.map(item => ({
+      updateOne: {
+        filter: { _id: item.product },
+        update: {
+          $inc: {
+            [`inventory.${item.size}`]: item.quantity,
+            salesCount: -item.quantity
+          }
+        }
       }
+    }));
+
+    if (bulkOps.length > 0) {
+      await Product.bulkWrite(bulkOps);
     }
 
     res.json({ msg: 'Order cancelled successfully.', order });
