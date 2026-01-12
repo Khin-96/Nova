@@ -123,6 +123,11 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Specific routes for HTML pages
+app.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "admin.html"));
+});
+
 // Catch-all route for Single Page Applications (SPA)
 // This serves index.html for any route not handled by static files or API routes.
 // It should come AFTER static middleware and API routes.

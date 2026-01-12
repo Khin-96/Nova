@@ -102,6 +102,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const sendNewsletterForm = document.getElementById("send-newsletter-form");
   const newsletterResponseMessageDiv = document.getElementById("newsletter-response-message");
 
+  // Dashboard Chart instances
+  let categoryChart = null;
+  let orderStatusChart = null;
+  let recentOrdersChart = null;
+
   // Tab switching
   tabButtons.forEach(button => {
     button.addEventListener("click", () => {
@@ -120,7 +125,9 @@ document.addEventListener("DOMContentLoaded", () => {
         activeTabContent.classList.add("active");
       }
       
-      if (tabId === "orders") {
+      if (tabId === "dashboard") {
+        loadDashboard();
+      } else if (tabId === "orders") {
         fetchOrders();
       } else if (tabId === "products") {
         fetchProducts();
@@ -130,10 +137,210 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Set initial active tab (Products)
-  const initialTab = document.querySelector(".tab-btn[data-tab='products']");
+  // Set initial active tab (Dashboard)
+  const initialTab = document.querySelector(".tab-btn[data-tab='dashboard']");
   if (initialTab) {
     initialTab.click(); // Simulate a click to set the initial state correctly
+  }
+
+  // --- Dashboard Functions ---
+  async function loadDashboard() {
+    try {
+      // Fetch dashboard statistics
+      const [products, orders] = await Promise.all([
+        fetchWithAuth(`${API_BASE_URL}/api/products?nocache=${Date.now()}`),
+        fetchWithAuth(`${API_BASE_URL}/api/orders?limit=100&nocache=${Date.now()}`)
+      ]);
+
+      if (!products || !orders) return;
+
+      const productsData = await products.json();
+      const ordersData = await orders.json();
+
+      // Update stats
+      document.getElementById('stat-total-products').textContent = productsData.length || 0;
+      document.getElementById('stat-total-orders').textContent = ordersData.orders?.length || 0;
+      
+      const pendingOrders = ordersData.orders?.filter(o => o.orderStatus === 'pending').length || 0;
+      document.getElementById('stat-pending-orders').textContent = pendingOrders;
+      
+      const outOfStock = productsData.filter(p => p.tags?.includes('out-of-stock')).length || 0;
+      document.getElementById('stat-out-of-stock').textContent = outOfStock;
+
+      // Prepare data for charts
+      const categoryData = {};
+      productsData.forEach(product => {
+        const category = product.category || 'Other';
+        categoryData[category] = (categoryData[category] || 0) + (product.salesCount || 0);
+      });
+
+      const orderStatusData = {};
+      ordersData.orders?.forEach(order => {
+        const status = order.orderStatus || 'unknown';
+        orderStatusData[status] = (orderStatusData[status] || 0) + 1;
+      });
+
+      // Recent orders (last 7 days)
+      const last7Days = [];
+      const ordersByDay = {};
+      const today = new Date();
+      
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        const dateStr = date.toISOString().split('T')[0];
+        last7Days.push(dateStr);
+        ordersByDay[dateStr] = 0;
+      }
+
+      ordersData.orders?.forEach(order => {
+        const orderDate = new Date(order.createdAt).toISOString().split('T')[0];
+        if (ordersByDay.hasOwnProperty(orderDate)) {
+          ordersByDay[orderDate]++;
+        }
+      });
+
+      // Create charts
+      createCategoryChart(categoryData);
+      createOrderStatusChart(orderStatusData);
+      createRecentOrdersChart(last7Days, ordersByDay);
+
+    } catch (error) {
+      console.error('Error loading dashboard:', error);
+    }
+  }
+
+  function createCategoryChart(data) {
+    const ctx = document.getElementById('categoryChart');
+    if (!ctx) return;
+
+    if (categoryChart) {
+      categoryChart.destroy();
+    }
+
+    categoryChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: Object.keys(data),
+        datasets: [{
+          data: Object.values(data),
+          backgroundColor: [
+            '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'
+          ],
+          borderWidth: 2,
+          borderColor: '#ffffff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          title: {
+            display: false
+          }
+        }
+      }
+    });
+  }
+
+  function createOrderStatusChart(data) {
+    const ctx = document.getElementById('orderStatusChart');
+    if (!ctx) return;
+
+    if (orderStatusChart) {
+      orderStatusChart.destroy();
+    }
+
+    const statusColors = {
+      'pending': '#f59e0b',
+      'confirmed': '#3b82f6',
+      'processing': '#8b5cf6',
+      'shipped': '#06b6d4',
+      'delivered': '#10b981',
+      'cancelled': '#ef4444'
+    };
+
+    orderStatusChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(data).map(s => s.charAt(0).toUpperCase() + s.slice(1)),
+        datasets: [{
+          data: Object.values(data),
+          backgroundColor: Object.keys(data).map(status => statusColors[status] || '#6b7280'),
+          borderWidth: 2,
+          borderColor: '#ffffff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          title: {
+            display: false
+          }
+        }
+      }
+    });
+  }
+
+  function createRecentOrdersChart(labels, data) {
+    const ctx = document.getElementById('recentOrdersChart');
+    if (!ctx) return;
+
+    if (recentOrdersChart) {
+      recentOrdersChart.destroy();
+    }
+
+    const formattedLabels = labels.map(dateStr => {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    });
+
+    recentOrdersChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: formattedLabels,
+        datasets: [{
+          label: 'Orders',
+          data: labels.map(dateStr => data[dateStr]),
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          tension: 0.4,
+          fill: true,
+          pointBackgroundColor: '#3b82f6',
+          pointBorderColor: '#ffffff',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: false
+          },
+          title: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
+      }
+    });
   }
 
   // Order filter buttons

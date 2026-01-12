@@ -6,6 +6,7 @@
   <title>Admin - Nova Wear</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     .product-item img { max-width: 100px; max-height: 100px; object-fit: cover; }
     .tag {
@@ -36,13 +37,88 @@
     
     <!-- Tabs -->
     <div class="flex border-b mb-6">
+      <button class="tab-btn px-4 py-2 font-medium text-gray-600 hover:text-black border-b-2 border-transparent hover:border-gray-300" data-tab="dashboard">Dashboard</button>
       <button class="tab-btn px-4 py-2 font-medium text-gray-600 hover:text-black border-b-2 border-transparent hover:border-gray-300" data-tab="products">Products</button>
       <button class="tab-btn px-4 py-2 font-medium text-gray-600 hover:text-black border-b-2 border-transparent hover:border-gray-300" data-tab="orders">Orders</button>
       <button class="tab-btn px-4 py-2 font-medium text-gray-600 hover:text-black border-b-2 border-transparent hover:border-gray-300" data-tab="newsletter">Newsletter</button>
     </div>
 
+    <!-- Dashboard Tab -->
+    <div id="dashboard-tab" class="tab-content active">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Stats Cards -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">Total Products</p>
+              <p id="stat-total-products" class="text-3xl font-bold mt-2">0</p>
+            </div>
+            <div class="bg-blue-100 rounded-full p-3">
+              <i class="fas fa-box text-blue-600 text-2xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">Total Orders</p>
+              <p id="stat-total-orders" class="text-3xl font-bold mt-2">0</p>
+            </div>
+            <div class="bg-green-100 rounded-full p-3">
+              <i class="fas fa-shopping-cart text-green-600 text-2xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">Pending Orders</p>
+              <p id="stat-pending-orders" class="text-3xl font-bold mt-2">0</p>
+            </div>
+            <div class="bg-yellow-100 rounded-full p-3">
+              <i class="fas fa-clock text-yellow-600 text-2xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">Out of Stock</p>
+              <p id="stat-out-of-stock" class="text-3xl font-bold mt-2">0</p>
+            </div>
+            <div class="bg-red-100 rounded-full p-3">
+              <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-lg font-semibold mb-4">Sales by Category</h3>
+          <canvas id="categoryChart"></canvas>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-lg font-semibold mb-4">Order Status Distribution</h3>
+          <canvas id="orderStatusChart"></canvas>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-lg font-semibold mb-4">Recent Orders (Last 7 Days)</h3>
+          <canvas id="recentOrdersChart"></canvas>
+        </div>
+      </div>
+    </div>
+
     <!-- Products Tab -->
-    <div id="products-tab" class="tab-content active">
+    <div id="products-tab" class="tab-content">
       <!-- Add Product Form -->
       <section class="mb-8 p-6 bg-white rounded-lg shadow-md">
         <h2 class="text-2xl font-semibold mb-4">Add New Product</h2>
