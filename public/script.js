@@ -27,6 +27,81 @@ document.addEventListener("DOMContentLoaded", () => {
   // Base URL for API endpoints
   const API_BASE_URL = "https://novawear.onrender.com";
   
+  // --- Authentication State ---
+  let currentUser = null;
+  let authToken = localStorage.getItem('authToken') || null;
+
+  // Check authentication status on load
+  if (authToken) {
+    verifyToken();
+  }
+
+  // Function to verify token
+  async function verifyToken() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/verify`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        currentUser = data.user;
+        updateUserUI();
+      } else {
+        // Token invalid, clear it
+        logout();
+      }
+    } catch (error) {
+      console.error('Error verifying token:', error);
+      // Keep the token for now, might be network issue
+    }
+  }
+
+  // Update UI based on authentication status
+  function updateUserUI() {
+    const userBtn = document.getElementById('user-btn');
+    if (userBtn && currentUser) {
+      // Update user button to show name (without changing UI structure)
+      const userName = currentUser.name.split(' ')[0]; // First name only
+      userBtn.setAttribute('title', `Logged in as ${currentUser.name}`);
+    }
+  }
+
+  // Logout function
+  function logout() {
+    authToken = null;
+    currentUser = null;
+    localStorage.removeItem('authToken');
+    updateUserUI();
+  }
+
+  // Helper function to make authenticated requests
+  async function fetchWithAuth(url, options = {}) {
+    if (authToken) {
+      options.headers = {
+        ...options.headers,
+        'Authorization': `Bearer ${authToken}`
+      };
+    }
+    return fetch(url, options);
+  }
+
+  // Track product view for logged-in users
+  async function trackProductView(productId) {
+    if (authToken && currentUser) {
+      try {
+        await fetchWithAuth(`${API_BASE_URL}/api/users/view-history/${productId}`, {
+          method: 'POST'
+        });
+      } catch (error) {
+        // Silently fail - not critical
+        console.log('Could not track view');
+      }
+    }
+  }
+  
   // Fallback products data if API fails
   const FALLBACK_PRODUCTS = [
     {

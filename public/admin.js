@@ -1,5 +1,96 @@
 document.addEventListener("DOMContentLoaded", () => {
   const API_BASE_URL = "https://novawear.onrender.com";
+  
+  // --- Authentication Check ---
+  let authToken = localStorage.getItem('authToken') || null;
+  let currentUser = null;
+
+  // Check authentication on page load
+  if (!authToken) {
+    redirectToLogin();
+    return;
+  }
+
+  // Verify token and check admin role
+  verifyAdminAccess();
+
+  async function verifyAdminAccess() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/verify`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+
+      if (!response.ok) {
+        redirectToLogin();
+        return;
+      }
+
+      const data = await response.json();
+      currentUser = data.user;
+
+      // Check if user is admin
+      if (currentUser.role !== 'admin') {
+        alert('Access denied. Admin privileges required.');
+        redirectToLogin();
+        return;
+      }
+
+      // Admin verified, continue with page initialization
+      initializePage();
+
+    } catch (error) {
+      console.error('Error verifying admin access:', error);
+      redirectToLogin();
+    }
+  }
+
+  function redirectToLogin() {
+    alert('Please login with admin credentials to access this page.');
+    // Clear invalid token
+    localStorage.removeItem('authToken');
+    // Redirect to main page (in production, this would be a login page)
+    window.location.href = '/';
+  }
+
+  function logout() {
+    localStorage.removeItem('authToken');
+    window.location.href = '/';
+  }
+
+  // Helper function to make authenticated requests
+  async function fetchWithAuth(url, options = {}) {
+    if (!authToken) {
+      redirectToLogin();
+      return;
+    }
+
+    options.headers = {
+      ...options.headers,
+      'Authorization': `Bearer ${authToken}`
+    };
+
+    try {
+      const response = await fetch(url, options);
+      
+      // Check if token expired
+      if (response.status === 401 || response.status === 403) {
+        alert('Your session has expired. Please login again.');
+        redirectToLogin();
+        return null;
+      }
+
+      return response;
+    } catch (error) {
+      console.error('Request error:', error);
+      throw error;
+    }
+  }
+
+  // Initialize page after authentication check
+  function initializePage() {
+    
   const addProductForm = document.getElementById("add-product-form");
   const productListDiv = document.getElementById("product-list");
   const addResponseMessageDiv = document.getElementById("add-response-message");
@@ -316,10 +407,12 @@ document.addEventListener("DOMContentLoaded", () => {
       submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Adding...';
 
       try {
-        const response = await fetch(`${API_BASE_URL}/api/products`, {
+        const response = await fetchWithAuth(`${API_BASE_URL}/api/products`, {
           method: "POST",
           body: formData,
         });
+
+        if (!response) return; // Auth error, already handled
 
         const result = await response.json();
 
@@ -356,9 +449,11 @@ document.addEventListener("DOMContentLoaded", () => {
     button.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Deleting...';
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/products/${productId}`, {
+      const response = await fetchWithAuth(`${API_BASE_URL}/api/products/${productId}`, {
         method: "DELETE",
       });
+
+      if (!response) return; // Auth error, already handled
 
       const result = await response.json();
 
@@ -495,5 +590,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Fallback if initialTab somehow wasn't found
     fetchProducts(); 
   }
+  
+  } // End of initializePage function
+
 });
 
