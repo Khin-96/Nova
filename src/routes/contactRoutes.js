@@ -1,13 +1,15 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
 const Contact = require("../models/Contact");
+const { contactLimiter } = require("../middleware/rateLimitMiddleware");
+const { sanitizeInput } = require("../middleware/sanitizeMiddleware");
 
 const router = express.Router();
 
 // @route   POST /api/contact
 // @desc    Save contact form submission and send email
 // @access  Public
-router.post("/", async (req, res) => {
+router.post("/", contactLimiter, sanitizeInput, async (req, res) => {
   const { name, email, message } = req.body;
 
   // Basic validation

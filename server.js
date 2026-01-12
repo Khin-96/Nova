@@ -3,15 +3,49 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+const helmet = require("helmet");
+const hpp = require("hpp");
 
 // Import routes
-const productRoutes = require("./src/routes/productRoutes"); // Ensure these paths are correct for your project structure
+const productRoutes = require("./src/routes/productRoutes");
 const contactRoutes = require("./src/routes/contactRoutes");
 const subscriptionRoutes = require("./src/routes/subscriptionRoutes");
 const mpesaRoutes = require("./src/routes/mpesaRoutes");
+const authRoutes = require("./src/routes/authRoutes");
+const userRoutes = require("./src/routes/userRoutes");
+const orderRoutes = require("./src/routes/orderRoutes");
+const reviewRoutes = require("./src/routes/reviewRoutes");
+const recommendationRoutes = require("./src/routes/recommendationRoutes");
+
+// Import middleware
+const { apiLimiter } = require("./src/middleware/rateLimitMiddleware");
+const { sanitizeMongo, sanitizeInput } = require("./src/middleware/sanitizeMiddleware");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Security Middleware
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      connectSrc: ["'self'", "https://novawear.onrender.com", "https://api.safaricom.co.ke"]
+    }
+  }
+}));
+
+// HTTP Parameter Pollution protection
+app.use(hpp());
+
+// MongoDB injection protection
+app.use(sanitizeMongo);
+
+// General rate limiting
+app.use('/api/', apiLimiter);
 
 // Middleware
 
@@ -60,8 +94,13 @@ mongoose.connect(MONGO_URI)
   });
 
 // API Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/recommendations", recommendationRoutes);
 app.use("/api", productRoutes);
-app.use("/api", contactRoutes);
+app.use("/api/contact", contactRoutes);
 app.use("/api", subscriptionRoutes);
 app.use("/api/mpesa", mpesaRoutes);
 

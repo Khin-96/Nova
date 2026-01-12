@@ -14,6 +14,36 @@ const productSchema = new mongoose.Schema({
     type: [String],
     enum: ['S', 'M', 'L', 'XL'],
     default: ['S', 'M', 'L', 'XL']
+  },
+  description: {
+    type: String,
+    trim: true
+  },
+  inventory: {
+    type: Number,
+    default: 100,
+    min: 0
+  },
+  averageRating: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 5
+  },
+  reviewCount: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  viewCount: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  purchaseCount: {
+    type: Number,
+    default: 0,
+    min: 0
   }
 }, {
   timestamps: true

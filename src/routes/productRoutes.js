@@ -4,6 +4,8 @@ const Product = require("../models/Product");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2; // Import v2
 const { CloudinaryStorage } = require("multer-storage-cloudinary"); // Import CloudinaryStorage
+const { protect, admin } = require("../middleware/authMiddleware");
+const { sanitizeSearchQuery } = require("../middleware/sanitizeMiddleware");
 
 // Configure Cloudinary (reads from environment variables automatically if set on Render)
 // Ensure CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET are set in Render Env Vars
@@ -46,8 +48,8 @@ router.get("/products/featured", async (req, res) => {
 
 // @route   POST /api/products
 // @desc    Create a new product with image upload to Cloudinary
-// @access  Private (should be protected in a real app)
-router.post("/products", upload.single("productImage"), async (req, res) => {
+// @access  Private (Admin only)
+router.post("/products", protect, admin, upload.single("productImage"), async (req, res) => {
   try {
     // Check if file was uploaded by Multer/Cloudinary
     if (!req.file) {
@@ -125,17 +127,17 @@ router.post("/products", upload.single("productImage"), async (req, res) => {
 // @route   GET /api/products
 // @desc    Get all products, optionally filtered by category or search term
 // @access  Public
-router.get("/products", async (req, res) => {
+router.get("/products", sanitizeSearchQuery, async (req, res) => {
   const { category, search } = req.query; 
   let query = {};
 
   if (category && category !== 'all') {
-    // FIX: Make category matching case-insensitive and use categories from the Product schema or a broader list
-    // For now, we'll assume categories are stored as they are sent from frontend (lowercase)
-    query.category = { $regex: new RegExp(`^${category}$`, 'i') };
+    // Use exact match instead of regex to prevent ReDoS
+    query.category = category;
   }
 
   if (search) {
+    // Search term is already sanitized by sanitizeSearchQuery middleware
     const searchRegex = { $regex: search, $options: 'i' }; 
     const searchConditions = { $or: [{ name: searchRegex }, { category: searchRegex }, { description: searchRegex }] }; // Search name, category, description
     
@@ -176,8 +178,8 @@ router.get("/products/:id", async (req, res) => {
 
 // @route   PUT /api/products/:id
 // @desc    Update a product (including image)
-// @access  Private (should be protected)
-router.put("/products/:id", upload.single("productImage"), async (req, res) => {
+// @access  Private (Admin only)
+router.put("/products/:id", protect, admin, upload.single("productImage"), async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) {
@@ -259,8 +261,8 @@ router.put("/products/:id", upload.single("productImage"), async (req, res) => {
 
 // @route   DELETE /api/products/:id
 // @desc    Delete a product
-// @access  Private (should be protected)
-router.delete("/products/:id", async (req, res) => {
+// @access  Private (Admin only)
+router.delete("/products/:id", protect, admin, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) {

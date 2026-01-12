@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+const { mpesaLimiter } = require("../middleware/rateLimitMiddleware");
 
 const router = express.Router();
 
@@ -34,8 +35,8 @@ async function getDarajaToken() {
 // --- STK Push Endpoint ---
 // @route   POST /api/mpesa/stkpush
 // @desc    Initiate M-Pesa STK Push
-// @access  Public (should be protected in a real app)
-router.post("/stkpush", async (req, res) => {
+// @access  Public (with rate limiting)
+router.post("/stkpush", mpesaLimiter, async (req, res) => {
   const { phone, amount } = req.body;
 
   // Basic validation
@@ -100,16 +101,16 @@ router.post("/stkpush", async (req, res) => {
     // Check Daraja response
     if (response.data && response.data.ResponseCode === "0") {
       // STK Push initiated successfully
-      console.log("STK Push initiated:", response.data);
+      console.log("STK Push initiated successfully");
       res.json({ msg: "STK Push initiated. Please enter your M-Pesa PIN on your phone.", data: response.data });
     } else {
       // STK Push initiation failed
-      console.error("STK Push failed:", response.data);
+      console.error("STK Push failed:", response.data.ResponseDescription);
       res.status(500).json({ msg: response.data.ResponseDescription || "Failed to initiate M-Pesa payment." });
     }
 
   } catch (error) {
-    console.error("Error initiating STK Push:", error.response ? error.response.data : error.message);
+    console.error("Error initiating STK Push");
     res.status(500).json({ msg: error.message || "Server error during M-Pesa request." });
   }
 });
@@ -120,13 +121,13 @@ router.post("/stkpush", async (req, res) => {
 // @access  Public (from Safaricom)
 router.post("/callback", (req, res) => {
   console.log("--- M-Pesa Callback Received ---");
-  console.log(JSON.stringify(req.body, null, 2));
-  console.log("---------------------------------");
-
-  // TODO: Process the callback data
+  // Log only non-sensitive data
+  console.log("Callback data received at:", new Date().toISOString());
+  
+  // TODO: Process the callback data securely
   // 1. Check if ResultCode is 0 (success)
   // 2. Find the corresponding order in your database using MerchantRequestID or CheckoutRequestID
-  // 3. Update the order status to \'paid\'
+  // 3. Update the order status to 'paid'
   // 4. Handle potential errors or cancellations (ResultCode != 0)
 
   // Respond to Safaricom to acknowledge receipt
