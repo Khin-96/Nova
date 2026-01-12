@@ -23,12 +23,15 @@ exports.sanitizeMongo = mongoSanitize({
 exports.sanitizeInput = (req, res, next) => {
   const sanitizeValue = (value) => {
     if (typeof value === 'string') {
-      // Remove any HTML tags and scripts using simple regex
-      // Strip all HTML tags
-      let sanitized = value.replace(/<[^>]*>/g, '');
-      // Remove script content
-      sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-      return sanitized;
+      // Simply escape HTML entities - safest approach
+      // This prevents XSS by encoding all special characters
+      return value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;')
+        .replace(/\//g, '&#x2F;');
     }
     return value;
   };
