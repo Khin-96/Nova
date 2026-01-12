@@ -16,7 +16,13 @@ exports.protect = async (req, res, next) => {
 
   try {
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret-change-this');
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      console.error('JWT_SECRET is not configured');
+      return res.status(500).json({ msg: 'Server configuration error' });
+    }
+    
+    const decoded = jwt.verify(token, secret);
     
     // Get user from token
     req.user = await User.findById(decoded.id).select('-password');
@@ -51,8 +57,11 @@ exports.optionalAuth = async (req, res, next) => {
 
   if (token) {
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret-change-this');
-      req.user = await User.findById(decoded.id).select('-password');
+      const secret = process.env.JWT_SECRET;
+      if (secret) {
+        const decoded = jwt.verify(token, secret);
+        req.user = await User.findById(decoded.id).select('-password');
+      }
     } catch (error) {
       // Silently fail for optional auth
       console.log('Optional auth failed:', error.message);
