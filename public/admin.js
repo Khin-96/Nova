@@ -144,12 +144,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Dashboard Functions ---
+  const OUT_OF_STOCK_TAG = 'out-of-stock';
+  const DASHBOARD_ORDERS_LIMIT = 100; // Adjust based on needs
+  
   async function loadDashboard() {
     try {
       // Fetch dashboard statistics
       const [products, orders] = await Promise.all([
         fetchWithAuth(`${API_BASE_URL}/api/products?nocache=${Date.now()}`),
-        fetchWithAuth(`${API_BASE_URL}/api/orders?limit=100&nocache=${Date.now()}`)
+        fetchWithAuth(`${API_BASE_URL}/api/orders?limit=${DASHBOARD_ORDERS_LIMIT}&nocache=${Date.now()}`)
       ]);
 
       if (!products || !orders) return;
@@ -164,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const pendingOrders = ordersData.orders?.filter(o => o.orderStatus === 'pending').length || 0;
       document.getElementById('stat-pending-orders').textContent = pendingOrders;
       
-      const outOfStock = productsData.filter(p => p.tags?.includes('out-of-stock')).length || 0;
+      const outOfStock = productsData.filter(p => p.tags?.includes(OUT_OF_STOCK_TAG)).length || 0;
       document.getElementById('stat-out-of-stock').textContent = outOfStock;
 
       // Prepare data for charts
