@@ -4,6 +4,9 @@ const Product = require("../models/Product");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2; // Import v2
 const { CloudinaryStorage } = require("multer-storage-cloudinary"); // Import CloudinaryStorage
+const { authenticateToken, isAdmin } = require("../middleware/authMiddleware");
+const { escapeRegex } = require("../middleware/sanitizeMiddleware");
+const { productCreationLimiter } = require("../middleware/rateLimitMiddleware");
 
 // Configure Cloudinary (reads from environment variables automatically if set on Render)
 // Ensure CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET are set in Render Env Vars
@@ -46,8 +49,8 @@ router.get("/products/featured", async (req, res) => {
 
 // @route   POST /api/products
 // @desc    Create a new product with image upload to Cloudinary
-// @access  Private (should be protected in a real app)
-router.post("/products", upload.single("productImage"), async (req, res) => {
+// @access  Private (Admin only)
+router.post("/products", authenticateToken, isAdmin, productCreationLimiter, upload.single("productImage"), async (req, res) => {
   try {
     // Check if file was uploaded by Multer/Cloudinary
     if (!req.file) {
@@ -130,13 +133,16 @@ router.get("/products", async (req, res) => {
   let query = {};
 
   if (category && category !== 'all') {
-    // FIX: Make category matching case-insensitive and use categories from the Product schema or a broader list
-    // For now, we'll assume categories are stored as they are sent from frontend (lowercase)
-    query.category = { $regex: new RegExp(`^${category}$`, 'i') };
+    // Use exact string matching instead of regex to prevent ReDoS
+    // Escape any special characters for safety
+    const sanitizedCategory = escapeRegex(category);
+    query.category = { $regex: new RegExp(`^${sanitizedCategory}$`, 'i') };
   }
 
   if (search) {
-    const searchRegex = { $regex: search, $options: 'i' }; 
+    // Escape regex special characters to prevent ReDoS attacks
+    const escapedSearch = escapeRegex(search);
+    const searchRegex = { $regex: escapedSearch, $options: 'i' }; 
     const searchConditions = { $or: [{ name: searchRegex }, { category: searchRegex }, { description: searchRegex }] }; // Search name, category, description
     
     if (Object.keys(query).length > 0) { // If category filter exists
@@ -176,8 +182,8 @@ router.get("/products/:id", async (req, res) => {
 
 // @route   PUT /api/products/:id
 // @desc    Update a product (including image)
-// @access  Private (should be protected)
-router.put("/products/:id", upload.single("productImage"), async (req, res) => {
+// @access  Private (Admin only)
+router.put("/products/:id", authenticateToken, isAdmin, upload.single("productImage"), async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) {
@@ -259,8 +265,8 @@ router.put("/products/:id", upload.single("productImage"), async (req, res) => {
 
 // @route   DELETE /api/products/:id
 // @desc    Delete a product
-// @access  Private (should be protected)
-router.delete("/products/:id", async (req, res) => {
+// @access  Private (Admin only)
+router.delete("/products/:id", authenticateToken, isAdmin, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) {

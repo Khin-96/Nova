@@ -1,13 +1,15 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
 const Contact = require("../models/Contact");
+const { contactLimiter } = require("../middleware/rateLimitMiddleware");
+const { sanitizeValue } = require("../middleware/sanitizeMiddleware");
 
 const router = express.Router();
 
 // @route   POST /api/contact
 // @desc    Save contact form submission and send email
 // @access  Public
-router.post("/", async (req, res) => {
+router.post("/", contactLimiter, async (req, res) => {
   const { name, email, message } = req.body;
 
   // Basic validation
@@ -47,17 +49,16 @@ router.post("/", async (req, res) => {
         from: `"Nova Wear Contact Form" <${process.env.EMAIL_USER}>`, // Sender address (must be your authenticated email)
         to: "novawearke@gmail.com", // Receiver address (your specified email)
         replyTo: email, // Set reply-to to the user's email
-        subject: `New Contact Form Submission from ${name}`, // Subject line
-        text: `You have received a new message from your website contact form.\n\nName: ${name}\nEmail: ${email}\nMessage:\n${message}`,
+        subject: `New Contact Form Submission from ${sanitizeValue(name)}`, // Subject line
+        text: `You have received a new message from your website contact form.\n\nName: ${sanitizeValue(name)}\nEmail: ${sanitizeValue(email)}\nMessage:\n${sanitizeValue(message)}`,
         html: `<p>You have received a new message from your website contact form.</p>
                <h3>Contact Details</h3>
                <ul>
-                 <li><strong>Name:</strong> ${name}</li>
-                 <li><strong>Email:</strong> ${email}</li>
+                 <li><strong>Name:</strong> ${sanitizeValue(name)}</li>
+                 <li><strong>Email:</strong> ${sanitizeValue(email)}</li>
                </ul>
                <h3>Message</h3>
-               <p>${message.replace(/\n/g, 
-'<br>')}</p>` // Format message with line breaks
+               <p>${sanitizeValue(message).replace(/\n/g, '<br>')}</p>` // Format message with line breaks and sanitize
       };
 
       // Send mail

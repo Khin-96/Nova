@@ -3,15 +3,44 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
+const hpp = require("hpp");
+const { sanitizeInput } = require("./src/middleware/sanitizeMiddleware");
+const { apiLimiter } = require("./src/middleware/rateLimitMiddleware");
 
 // Import routes
-const productRoutes = require("./src/routes/productRoutes"); // Ensure these paths are correct for your project structure
+const productRoutes = require("./src/routes/productRoutes");
 const contactRoutes = require("./src/routes/contactRoutes");
 const subscriptionRoutes = require("./src/routes/subscriptionRoutes");
 const mpesaRoutes = require("./src/routes/mpesaRoutes");
+const authRoutes = require("./src/routes/authRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Security Middleware - Apply early in the middleware stack
+
+// Helmet for security headers
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      fontSrc: ["'self'", "https://cdn.jsdelivr.net"],
+      imgSrc: ["'self'", "data:", "https:", "http:"],
+      connectSrc: ["'self'", "https://novawear.onrender.com", "https://api.safaricom.co.ke"]
+    }
+  },
+  crossOriginEmbedderPolicy: false
+}));
+
+// NoSQL Injection prevention
+app.use(mongoSanitize());
+
+// HTTP Parameter Pollution prevention
+app.use(hpp());
 
 // Middleware
 
@@ -44,6 +73,12 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
+// Input sanitization middleware - Apply globally
+app.use(sanitizeInput);
+
+// Rate limiting - Apply to all API routes
+app.use("/api", apiLimiter);
+
 // Serve static files (HTML, CSS, JS) from the \'public\' directory
 // This will serve index.html for \'/', admin.html for \'/admin.html\', etc.
 // Make sure your admin.html, index.html, script.js, and styles.css are in a \'public\' folder.
@@ -60,10 +95,25 @@ mongoose.connect(MONGO_URI)
   });
 
 // API Routes
+app.use("/api/auth", authRoutes);
 app.use("/api", productRoutes);
-app.use("/api", contactRoutes);
+app.use("/api/contact", contactRoutes);
 app.use("/api", subscriptionRoutes);
 app.use("/api/mpesa", mpesaRoutes);
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('Server error:', err.message);
+  
+  // Don't leak error details in production
+  const errorMessage = process.env.NODE_ENV === 'production' 
+    ? 'An unexpected error occurred' 
+    : err.message;
+  
+  res.status(err.status || 500).json({ 
+    msg: errorMessage 
+  });
+});
 
 // Catch-all route for Single Page Applications (SPA)
 // This serves index.html for any route not handled by static files or API routes.
