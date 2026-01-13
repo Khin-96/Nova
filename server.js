@@ -21,16 +21,34 @@ const analyticsRoutes = require("./src/routes/analyticsRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// DIAGNOSTIC ROUTE - Top of file
-app.get("/api/health-check", (req, res) => {
-  res.status(200).json({ status: "ok", origin: req.headers.origin || "none" });
+// 1. ABSOLUTE TOP MIDDLEWARE: Simple Wildcard CORS for Debugging
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, x-admin-api-key");
+  if (req.method === "OPTIONS") return res.sendStatus(204);
+  next();
 });
 
-// Tracking & Recommendations
+// 2. DIAGNOSTIC ROUTES
+app.get("/api/health-check", (req, res) => {
+  res.status(200).json({ status: "ok", message: "Health check passed" });
+});
+
+app.get("/api/info", (req, res) => {
+  res.status(200).json({
+    headers: req.headers,
+    method: req.method,
+    url: req.url,
+    node_env: process.env.NODE_ENV
+  });
+});
+
+// 3. SERVICE INITIALIZATION
 const { trackUserAction, getRecommendations } = require("./src/services/recommendationService");
 const { connectProducer } = require("./src/lib/kafka");
 
-// Connect Kafka (fire and forget connectivity check)
+// Connect Kafka (fire and forget)
 connectProducer();
 
 // Middleware
