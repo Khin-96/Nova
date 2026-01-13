@@ -12,4 +12,7 @@
   NODE_VERSION = "20"
   NEXT_PUBLIC_API_URL = "https://nova-backend-htzd.onrender.com"
 
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 
