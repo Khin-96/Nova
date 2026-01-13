@@ -21,6 +21,11 @@ const analyticsRoutes = require("./src/routes/analyticsRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// DIAGNOSTIC ROUTE - Top of file
+app.get("/api/health-check", (req, res) => {
+  res.status(200).json({ status: "ok", origin: req.headers.origin || "none" });
+});
+
 // Tracking & Recommendations
 const { trackUserAction, getRecommendations } = require("./src/services/recommendationService");
 const { connectProducer } = require("./src/lib/kafka");
