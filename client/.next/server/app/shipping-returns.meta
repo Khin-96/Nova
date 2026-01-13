@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/shipping-returns/layout,_N_T_/shipping-returns/page,_N_T_/shipping-returns"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/shipping-returns/__PAGE__",
+    "/shipping-returns",
+    "/_index",
+    "/_head"
+  ]
+}

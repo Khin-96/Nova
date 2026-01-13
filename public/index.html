@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nova Wear-We style You</title>
   <link rel="icon" href="favicon.jpeg" type="image/jpeg">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body class="bg-gray-50 font-sans">
   <header class="bg-white shadow-sm sticky top-0 z-50">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -32,7 +34,8 @@
         <a href="#" id="about-link" class="nav-link font-medium text-gray-700 hover:text-black">About</a>
         <a href="#contact" class="nav-link font-medium text-gray-700 hover:text-black">Contact</a>
         <div class="relative ml-4">
-          <input type="text" id="search-input" placeholder="Search..." class="search-input hidden w-64 px-4 py-2 border rounded-full focus:outline-none focus:ring-1 focus:ring-black"/>
+          <input type="text" id="search-input" placeholder="Search..."
+            class="search-input hidden w-64 px-4 py-2 border rounded-full focus:outline-none focus:ring-1 focus:ring-black" />
           <button id="search-btn" class="p-2 text-gray-600 hover:text-black">
             <i class="fas fa-search"></i>
           </button>
@@ -44,7 +47,8 @@
         </button>
         <button id="cart-btn" class="p-2 text-gray-600 hover:text-black relative">
           <i class="fas fa-shopping-bag"></i>
-          <span id="cart-count" class="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+          <span id="cart-count"
+            class="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
         </button>
         <button id="user-btn" class="p-2 text-gray-600 hover:text-black">
           <i class="fas fa-user"></i>
@@ -54,14 +58,15 @@
         </button>
       </div>
     </div>
-    
+
     <!-- Mobile menu -->
     <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
       <div class="container mx-auto px-4 py-2">
         <nav class="flex flex-col space-y-3 py-4">
           <a href="/" class="font-medium text-gray-700 hover:text-black py-2">Home</a>
           <div>
-            <button id="mobile-shop-btn" class="flex justify-between items-center w-full font-medium text-gray-700 hover:text-black py-2">
+            <button id="mobile-shop-btn"
+              class="flex justify-between items-center w-full font-medium text-gray-700 hover:text-black py-2">
               Shop
               <i class="fas fa-chevron-down"></i>
             </button>
@@ -82,14 +87,21 @@
 
   <!-- Hero Section -->
   <section class="relative bg-black text-white h-screen flex items-center">
-    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'); opacity: 0.7;"></div>
+    <div class="absolute inset-0 bg-cover bg-center"
+      style="background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'); opacity: 0.7;">
+    </div>
     <div class="container mx-auto px-4 z-10">
       <div class="max-w-xl">
         <h1 class="text-5xl font-bold leading-tight mb-6 fade-in">Contemporary Style for Modern Life</h1>
-        <p class="text-xl mb-8 fade-in delay-1">Discover the latest trends in fashion with our premium quality clothing line.</p>
+        <p class="text-xl mb-8 fade-in delay-1">Discover the latest trends in fashion with our premium quality clothing
+          line.</p>
         <div class="flex space-x-4 fade-in delay-2">
-          <a href="#" id="hero-shop-now-btn" data-category="all" class="px-8 py-3 bg-white text-black font-medium hover:bg-gray-100 transition duration-300 rounded-md">Shop Now</a>
-          <a href="https://instagram.com/khin.szn" target="_blank" class="px-8 py-3 border border-white font-medium hover:bg-white hover:text-black transition duration-300 rounded-md">View Our Instagram</a>
+          <a href="#" id="hero-shop-now-btn" data-category="all"
+            class="px-8 py-3 bg-white text-black font-medium hover:bg-gray-100 transition duration-300 rounded-md">Shop
+            Now</a>
+          <a href="https://instagram.com/khin.szn" target="_blank"
+            class="px-8 py-3 border border-white font-medium hover:bg-white hover:text-black transition duration-300 rounded-md">View
+            Our Instagram</a>
         </div>
       </div>
     </div>
@@ -115,19 +127,25 @@
       <h2 class="text-3xl font-bold mb-12 text-center">Shop by Category</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <a href="#" data-category="hoodies" class="relative overflow-hidden rounded-lg group h-64">
-          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80');"></div>
+          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+            style="background-image: url('https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80');">
+          </div>
           <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
             <span class="text-white text-2xl font-bold">Hoodies</span>
           </div>
         </a>
         <a href="#" data-category="tshirts" class="relative overflow-hidden rounded-lg group h-64">
-          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80');"></div>
+          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+            style="background-image: url('https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80');">
+          </div>
           <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
             <span class="text-white text-2xl font-bold">T-Shirts</span>
           </div>
         </a>
         <a href="#" data-category="outerwear" class="relative overflow-hidden rounded-lg group h-64">
-          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=736&q=80');"></div>
+          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+            style="background-image: url('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=736&q=80');">
+          </div>
           <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
             <span class="text-white text-2xl font-bold">Outerwear</span>
           </div>
@@ -143,17 +161,24 @@
         <h2 class="text-3xl font-bold mb-6 text-center">Our Story</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
-            <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Our Store" class="w-full h-auto rounded-lg shadow-md">
+            <img
+              src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+              alt="Our Store" class="w-full h-auto rounded-lg shadow-md">
           </div>
           <div>
             <p class="text-lg text-gray-700 mb-4">
-              Nova Wear was founded in 2025 with a simple mission: to provide high-quality, contemporary clothing for the modern lifestyle. What started as a small boutique in Mombasa has grown into a beloved brand across Kenya.
+              Nova Wear was founded in 2025 with a simple mission: to provide high-quality, contemporary clothing for
+              the modern lifestyle. What started as a small boutique in Mombasa has grown into a beloved brand across
+              Kenya.
             </p>
             <p class="text-lg text-gray-700 mb-4">
-              Our founder, Kinga, started Nova Wear after noticing a gap in the market for stylish, locally-available clothing that combines comfort with cutting-edge design. Each piece in our collection is carefully selected to ensure quality and style.
+              Our founder, Kinga, started Nova Wear after noticing a gap in the market for stylish, locally-available
+              clothing that combines comfort with cutting-edge design. Each piece in our collection is carefully
+              selected to ensure quality and style.
             </p>
             <p class="text-lg text-gray-700">
-              Today, we're proud to serve customers across Kenya, with a special focus on Mombasa and Kilifi. We remain committed to our roots while continuously evolving to meet the needs of our fashion-forward customers.
+              Today, we're proud to serve customers across Kenya, with a special focus on Mombasa and Kilifi. We remain
+              committed to our roots while continuously evolving to meet the needs of our fashion-forward customers.
             </p>
           </div>
         </div>
@@ -161,52 +186,60 @@
     </div>
   </section>
 
-   <!-- Contact Form Section - Updated for Formspree -->
+  <!-- Contact Form Section - Updated for Formspree -->
   <section id="contact" class="py-16 bg-white mb-16">
     <div class="container mx-auto px-4">
       <div class="max-w-3xl mx-auto">
         <h2 class="text-3xl font-bold mb-6 text-center">Contact Us</h2>
         <p class="text-gray-600 mb-8 text-center">Have questions or feedback? Get in touch with our team.</p>
-        
+
         <form id="contact-form" action="https://formspree.io/f/mzzrgzrz" method="POST" class="space-y-6">
           <input type="hidden" name="_subject" value="New Contact Form Submission">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-              <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
+              <input type="text" id="name" name="name" required
+                class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
             </div>
             <div>
               <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
+              <input type="email" id="email" name="email" required
+                class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
             </div>
           </div>
           <div>
             <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-            <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"></textarea>
+            <textarea id="message" name="message" rows="5" required
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"></textarea>
           </div>
           <div>
-            <button type="submit" class="w-full bg-black text-white font-medium py-3 rounded-md hover:bg-gray-800 transition duration-300">Send Message</button>
+            <button type="submit"
+              class="w-full bg-black text-white font-medium py-3 rounded-md hover:bg-gray-800 transition duration-300">Send
+              Message</button>
           </div>
           <div id="contact-response" class="hidden py-4 px-6 rounded-md"></div>
         </form>
       </div>
     </div>
   </section>
-    <!-- Newsletter Section - Updated for Formspree -->
-    <section id="newsletter-section" class="py-16 bg-gray-900 text-white">
-      <div class="container mx-auto px-4">
-        <div class="max-w-3xl mx-auto text-center">
-          <h2 class="text-3xl font-bold mb-6">Join Our Newsletter</h2>
-          <p class="text-gray-300 mb-8">Stay updated with the latest trends, new arrivals, and exclusive offers.</p>
-          <form id="newsletter-form" action="https://formspree.io/f/mzzrgzrz" method="POST" class="flex flex-col md:flex-row gap-4 justify-center">
-            <input type="hidden" name="_subject" value="New Newsletter Subscription">
-            <input type="email" id="newsletter-email" name="email" placeholder="Your email address" required class="flex-grow px-4 py-3 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-white">
-            <button type="submit" class="bg-white text-black font-medium px-6 py-3 rounded-md hover:bg-gray-100 transition duration-300">Subscribe</button>
-          </form>
-          <div id="newsletter-response" class="hidden mt-4 py-2 px-4 rounded-md"></div>
-        </div>
+  <!-- Newsletter Section - Updated for Formspree -->
+  <section id="newsletter-section" class="py-16 bg-gray-900 text-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-6">Join Our Newsletter</h2>
+        <p class="text-gray-300 mb-8">Stay updated with the latest trends, new arrivals, and exclusive offers.</p>
+        <form id="newsletter-form" action="https://formspree.io/f/mzzrgzrz" method="POST"
+          class="flex flex-col md:flex-row gap-4 justify-center">
+          <input type="hidden" name="_subject" value="New Newsletter Subscription">
+          <input type="email" id="newsletter-email" name="email" placeholder="Your email address" required
+            class="flex-grow px-4 py-3 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-white">
+          <button type="submit"
+            class="bg-white text-black font-medium px-6 py-3 rounded-md hover:bg-gray-100 transition duration-300">Subscribe</button>
+        </form>
+        <div id="newsletter-response" class="hidden mt-4 py-2 px-4 rounded-md"></div>
       </div>
-    </section>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer class="bg-gray-100 py-12">
@@ -217,7 +250,8 @@
           <p class="text-gray-600 mb-4">Contemporary clothing for modern lifestyles.</p>
           <div class="flex space-x-4">
             <a href="#" class="text-gray-600 hover:text-black"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://instagram.com/khin.szn" target="_blank" class="text-gray-600 hover:text-black"><i class="fab fa-instagram"></i></a>
+            <a href="https://instagram.com/khin.szn" target="_blank" class="text-gray-600 hover:text-black"><i
+                class="fab fa-instagram"></i></a>
             <a href="#" class="text-gray-600 hover:text-black"><i class="fab fa-twitter"></i></a>
             <a href="#" class="text-gray-600 hover:text-black"><i class="fab fa-pinterest"></i></a>
           </div>
@@ -258,7 +292,8 @@
   </footer>
 
   <!-- Cart Sidebar -->
-  <div id="cart-sidebar" class="fixed top-0 right-0 w-full md:w-96 h-full bg-white/20 backdrop-blur-lg z-50 cart-sidebar cart-closed">
+  <div id="cart-sidebar"
+    class="fixed top-0 right-0 w-full md:w-96 h-full bg-white/20 backdrop-blur-lg z-50 cart-sidebar cart-closed">
     <div class="h-full flex flex-col">
       <div class="p-4 border-b flex justify-between items-center">
         <h3 class="text-xl font-bold">Your Cart</h3>
@@ -272,7 +307,8 @@
       <div class="p-4 border-t bg-white/30">
         <div class="mb-4">
           <label class="block text-sm font-medium text-gray-700 mb-1">Delivery Location</label>
-          <select id="delivery-location" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black">
+          <select id="delivery-location"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black">
             <option value="mombasa">Mombasa (Free Delivery)</option>
             <option value="kilifi">Kilifi (Free Delivery)</option>
             <option value="other">Other Locations (KES 450 Delivery Fee)</option>
@@ -291,20 +327,27 @@
           <span id="cart-total" class="font-bold">KES 0.00</span>
         </div>
         <div class="mb-4">
-          <label for="mpesa-phone" class="block text-sm font-medium text-gray-700 mb-1">M-Pesa Phone (e.g., 2547...)</label>
-          <input type="tel" id="mpesa-phone" name="mpesa-phone" placeholder="2547XXXXXXXX" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black">
+          <label for="mpesa-phone" class="block text-sm font-medium text-gray-700 mb-1">M-Pesa Phone (e.g.,
+            2547...)</label>
+          <input type="tel" id="mpesa-phone" name="mpesa-phone" placeholder="2547XXXXXXXX"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black">
         </div>
-        <button id="mpesa-checkout-btn" class="w-full bg-green-600 text-white font-medium py-3 rounded-md hover:bg-green-700 transition duration-300 flex items-center justify-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/1280px-M-PESA_LOGO-01.svg.png" alt="M-Pesa Logo" class="h-5 mr-2"> Pay with M-Pesa
+        <button id="mpesa-checkout-btn"
+          class="w-full bg-green-600 text-white font-medium py-3 rounded-md hover:bg-green-700 transition duration-300 flex items-center justify-center">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/1280px-M-PESA_LOGO-01.svg.png"
+            alt="M-Pesa Logo" class="h-5 mr-2"> Pay with M-Pesa
         </button>
         <p id="mpesa-response" class="text-sm mt-2 text-center"></p>
-        <p class="text-xs text-gray-500 mt-2 text-center">You will receive a prompt on your phone to enter your M-Pesa PIN.</p>
+        <p class="text-xs text-gray-500 mt-2 text-center">You will receive a prompt on your phone to enter your M-Pesa
+          PIN.</p>
       </div>
     </div>
   </div>
 
   <script src="script.js"></script>
 </body>
+
 </html>
 <!-- Product Display Section (for categories/search results) -->
 <section id="product-display-section" class="hidden py-16 bg-white">
@@ -320,4 +363,4 @@
   </div>
 </section>
 
-  <!-- About Section (hidden by default) -->
+<!-- About Section (hidden by default) -->

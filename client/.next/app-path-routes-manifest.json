@@ -1,0 +1,15 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/page": "/admin",
+  "/careers/page": "/careers",
+  "/contact/page": "/contact",
+  "/faq/page": "/faq",
+  "/our-story/page": "/our-story",
+  "/page": "/",
+  "/privacy-policy/page": "/privacy-policy",
+  "/shipping-returns/page": "/shipping-returns",
+  "/shop/page": "/shop",
+  "/size-guide/page": "/size-guide",
+  "/sustainability/page": "/sustainability"
+}
