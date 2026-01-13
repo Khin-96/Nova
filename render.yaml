@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: nova-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGO_URI
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: CLOUDINARY_URL
+        sync: false
+      - key: MPESA_CONSUMER_KEY
+        sync: false
+      - key: MPESA_CONSUMER_SECRET
+        sync: false
+      - key: MPESA_SHORTCODE
+        sync: false
+      - key: MPESA_PASSKEY
+        sync: false
+      - key: MPESA_AUTH_URL
+        value: https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials
+      - key: MPESA_STKPUSH_URL
+        value: https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest
+      - key: MPESA_CALLBACK_URL
+        value: https://novawears.tech/api/mpesa/callback
+      - key: ADMIN_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: https://novawears.tech

@@ -1,0 +1,26 @@
+# Ignore dependencies
+node_modules/
+
+# Ignore environment variables
+.env
+.env.local
+.env*.local
+
+# Ignore logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary files
+*.tmp
+*.temp
+verify_mpesa.js
+
+# Ignore IDE files
+.vscode/
+.idea/

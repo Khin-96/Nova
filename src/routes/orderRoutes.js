@@ -45,7 +45,8 @@ router.get('/', async (req, res) => {
         const orders = await Order.find(query).sort({ createdAt: -1 });
         res.json(orders);
     } catch (err) {
-        res.status(500).json({ message: 'Server Error' });
+        console.error("Error in PATCH /orders/:id/deliver:", err);
+        res.status(500).json({ message: 'Server Error: ' + err.message });
     }
 });
 
@@ -54,14 +55,18 @@ router.get('/', async (req, res) => {
 // @access  Private (Admin)
 router.patch('/:id/deliver', async (req, res) => {
     try {
-        const order = await Order.findById(req.params.id);
+        const order = await Order.findByIdAndUpdate(
+            req.params.id,
+            { status: 'delivered' },
+            { new: true }
+        );
+
         if (!order) return res.status(404).json({ message: 'Order not found' });
 
-        order.status = 'delivered';
-        await order.save();
         res.json(order);
     } catch (err) {
-        res.status(500).json({ message: 'Server Error' });
+        console.error("Error in PATCH /orders/:id/deliver:", err);
+        res.status(500).json({ message: 'Server Error: ' + err.message });
     }
 });
 
@@ -76,7 +81,8 @@ router.delete('/:id', async (req, res) => {
         await Order.findByIdAndDelete(req.params.id);
         res.json({ message: 'Order deleted' });
     } catch (err) {
-        res.status(500).json({ message: 'Server Error' });
+        console.error("Error in PATCH /orders/:id/deliver:", err);
+        res.status(500).json({ message: 'Server Error: ' + err.message });
     }
 });
 

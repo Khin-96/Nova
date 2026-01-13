@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Product = require("../models/Product");
 const multer = require("multer");
-const cloudinary = require("cloudinary").v2; // Import v2
+const cloudinary = require("cloudinary"); // Import root package for multer-storage-cloudinary
 const CloudinaryStorage = require("multer-storage-cloudinary"); // Import CloudinaryStorage
 
 // Configure Cloudinary (reads from environment variables automatically if set on Render)
@@ -64,12 +64,23 @@ router.post("/", upload.single("productImage"), async (req, res) => {
     }
 
     // FIX: Construct productData carefully to allow Mongoose defaults and handle form data for description, tags, sizes
+    console.log('File Uploaded:', req.file); // Debugging
+
+    const imageUrl = req.file.path || req.file.secure_url || req.file.url;
+
+    if (!imageUrl) {
+      return res.status(400).json({
+        msg: "Image URL missing from upload response",
+        debug: req.file // Send back what we GOT so we can see it
+      });
+    }
+
     const productData = {
       name,
       category,
       price: parseFloat(price),
-      image: req.file.path, // From multer/Cloudinary
-      imagePublicId: req.file.filename // From multer/Cloudinary
+      image: imageUrl,
+      imagePublicId: req.file.filename || req.file.public_id
     };
 
     if (description !== undefined) {
@@ -95,7 +106,7 @@ router.post("/", upload.single("productImage"), async (req, res) => {
     // If error occurred after upload, attempt to delete from Cloudinary
     if (req.file && req.file.filename) {
       try {
-        await cloudinary.uploader.destroy(req.file.filename);
+        await cloudinary.v2.uploader.destroy(req.file.filename);
         console.log("Cleaned up uploaded image from Cloudinary due to error.");
       } catch (cleanupErr) {
         console.error("Error cleaning up Cloudinary image:", cleanupErr);
@@ -220,7 +231,7 @@ router.put("/:id", upload.single("productImage"), async (req, res) => {
     // If update was successful AND a new image was uploaded AND there was an old image, delete old image from Cloudinary
     if (updatedProduct && req.file && oldImagePublicId) {
       try {
-        await cloudinary.uploader.destroy(oldImagePublicId);
+        await cloudinary.v2.uploader.destroy(oldImagePublicId);
         console.log("Successfully deleted old image from Cloudinary:", oldImagePublicId);
       } catch (deleteErr) {
         console.error("Error deleting old image from Cloudinary:", deleteErr);
@@ -235,7 +246,7 @@ router.put("/:id", upload.single("productImage"), async (req, res) => {
     // If error occurred after new upload, attempt to delete newly uploaded image
     if (req.file && req.file.filename) {
       try {
-        await cloudinary.uploader.destroy(req.file.filename);
+        await cloudinary.v2.uploader.destroy(req.file.filename);
         console.log("Cleaned up newly uploaded image from Cloudinary due to update error.");
       } catch (cleanupErr) {
         console.error("Error cleaning up new Cloudinary image after update failure:", cleanupErr);
@@ -275,7 +286,7 @@ router.delete("/:id", async (req, res) => {
     // If deletion from DB was successful and there was an imagePublicId, delete from Cloudinary
     if (imagePublicId) {
       try {
-        await cloudinary.uploader.destroy(imagePublicId);
+        await cloudinary.v2.uploader.destroy(imagePublicId);
         console.log("Successfully deleted image from Cloudinary:", imagePublicId);
       } catch (deleteErr) {
         console.error("Error deleting image from Cloudinary:", deleteErr);

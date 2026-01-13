@@ -8,7 +8,9 @@ const router = express.Router();
 async function getDarajaToken() {
   const consumerKey = process.env.MPESA_CONSUMER_KEY;
   const consumerSecret = process.env.MPESA_CONSUMER_SECRET;
-  const authUrl = process.env.MPESA_AUTH_URL || "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"; // Use sandbox by default
+  // Force Sandbox for debugging if .env fails
+  const authUrl = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
+  // const authUrl = process.env.MPESA_AUTH_URL || "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
 
   if (!consumerKey || !consumerSecret) {
     console.error("MPESA_CONSUMER_KEY or MPESA_CONSUMER_SECRET not set in .env");
@@ -133,6 +135,59 @@ router.post("/callback", (req, res) => {
   res.status(200).json({ ResultCode: 0, ResultDesc: "Accepted" });
 });
 
+
+// --- Dynamic QR Code Endpoint ---
+// @route   POST /api/mpesa/qrcode
+// @desc    Generate M-Pesa Dynamic QR Code
+// @access  Public
+router.post("/qrcode", async (req, res) => {
+  const { amount, refNo } = req.body;
+
+  if (!amount || !refNo) {
+    return res.status(400).json({ msg: "Amount and Reference Number are required." });
+  }
+
+  const qrUrl = "https://sandbox.safaricom.co.ke/mpesa/qrcode/v1/generate"; // Verify if sandbox or prod
+  const consumerKey = process.env.MPESA_CONSUMER_KEY;
+  const consumerSecret = process.env.MPESA_CONSUMER_SECRET;
+  const businessShortCode = process.env.MPESA_SHORTCODE; // Or specific Merchant Name
+
+  try {
+    const token = await getDarajaToken();
+
+    const payload = {
+      MerchantName: "Nova Wear", // Customize
+      RefNo: refNo,
+      Amount: parseInt(amount),
+      TrxCode: "BG", // Buy Goods
+      CPI: businessShortCode, // Credit Party Identifier (Till/Paybill)
+      Size: "300"
+    };
+
+    const response = await axios.post(qrUrl, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.data && response.data.ResponseCode === "00") { // Check Safaricom docs for exact code success, usually 00 or 0
+      // Safaricom ResponseCode for QR often is alphanumeric, doc says "AG_..."
+      // We return the payload if QRCode exists
+      res.json(response.data);
+    } else if (response.data.QRCode) {
+      // Sometimes success code isn't 00 but QRCode is present
+      res.json(response.data);
+    } else {
+      console.error("QR Code Gen failed:", response.data);
+      res.status(500).json({ msg: "Failed to generate QR Code.", details: response.data });
+    }
+
+  } catch (error) {
+    console.error("Error generating QR Code:", error.response ? error.response.data : error.message);
+    res.status(500).json({ msg: "Server error during QR Code request." });
+  }
+});
 
 module.exports = router;
 

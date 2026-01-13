@@ -101,7 +101,22 @@ app.use("/api/products", (req, res, next) => {
   }
   next();
 }, productRoutes); // Mount product routes with conditional auth
-app.use("/api/orders", orderRoutes);
+app.use("/api/orders", (req, res, next) => {
+  // Apply auth middleware only for mutation methods
+  if (["POST", "PUT", "DELETE", "PATCH"].includes(req.method)) {
+    // If it's a POST (create order), it might be public (customer checkout). 
+    // Check if it's NOT the checkout route if checkout is different.
+    // Actually, create order (POST /api/orders) is PUBLIC.
+    // Update/Delete/Get ALL is ADMIN.
+    if (req.method === 'POST') return next();
+    return verifyAdminKey(req, res, next);
+  }
+  // GET /api/orders allows viewing all orders? That should be ADMIN only.
+  // The route is router.get('/', ...).
+  if (req.method === 'GET') return verifyAdminKey(req, res, next);
+
+  next();
+}, orderRoutes);
 app.use("/api", contactRoutes);
 app.use("/api", subscriptionRoutes);
 app.use("/api/mpesa", mpesaRoutes);
@@ -132,6 +147,15 @@ app.get("/api/recommendations", async (req, res) => {
 // It should come AFTER static middleware and API routes.
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    message: 'Internal Server Error',
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
 });
 
 // Start server

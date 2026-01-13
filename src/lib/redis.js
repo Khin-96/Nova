@@ -18,7 +18,9 @@ if (process.env.REDIS_URL) {
         zincrby: async () => 1, // For sorted sets (scores)
         zrevrange: async () => [], // Get top items
         hincrby: async () => 1,
-        hgetall: async () => ({})
+        hgetall: async () => ({}),
+        lpush: async () => 1,
+        ltrim: async () => 'OK'
     };
 }
 

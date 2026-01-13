@@ -101,7 +101,7 @@ function AdminDashboard() {
         formData.append('name', newProduct.name || '');
         formData.append('category', newProduct.category || '');
         formData.append('price', newProduct.price || '');
-        if (newProduct.image) formData.append('image', newProduct.image);
+        if (newProduct.image) formData.append('productImage', newProduct.image);
         // Add sizes and tags manually if needed by backend, assuming backend parses comma lists or arrays
         // Based on admin.js, it appends tags individually.
         newProduct.tags.forEach((tag)=>formData.append('tags', tag));
@@ -113,7 +113,7 @@ function AdminDashboard() {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'x-api-key': localStorage.getItem('ADMIN_API_KEY') || ''
+                    'x-admin-api-key': localStorage.getItem('ADMIN_API_KEY') || ''
                 }
             });
             if (!res.ok) {
@@ -142,7 +142,7 @@ function AdminDashboard() {
             const res = await fetch(`${API_BASE_URL}/api/products/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'x-api-key': localStorage.getItem('ADMIN_API_KEY') || ''
+                    'x-admin-api-key': localStorage.getItem('ADMIN_API_KEY') || ''
                 }
             });
             if (!res.ok) throw new Error('Failed to delete');
@@ -175,7 +175,7 @@ function AdminDashboard() {
             const res = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method,
                 headers: {
-                    'x-api-key': localStorage.getItem('ADMIN_API_KEY') || ''
+                    'x-admin-api-key': localStorage.getItem('ADMIN_API_KEY') || ''
                 }
             });
             if (!res.ok) throw new Error('Action failed');
@@ -237,7 +237,7 @@ function AdminDashboard() {
             const res = await fetch(`${API_BASE_URL}/api/careers/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'x-api-key': localStorage.getItem('ADMIN_API_KEY') || ''
+                    'x-admin-api-key': localStorage.getItem('ADMIN_API_KEY') || ''
                 }
             });
             if (!res.ok) throw new Error('Failed to delete');
@@ -253,7 +253,7 @@ function AdminDashboard() {
         try {
             const res = await fetch(`${API_BASE_URL}/api/analytics/dashboard`, {
                 headers: {
-                    'x-api-key': localStorage.getItem('ADMIN_API_KEY') || ''
+                    'x-admin-api-key': localStorage.getItem('ADMIN_API_KEY') || ''
                 }
             });
             if (!res.ok) throw new Error('Failed to fetch analytics');

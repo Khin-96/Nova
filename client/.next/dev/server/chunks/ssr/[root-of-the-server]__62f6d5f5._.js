@@ -1322,7 +1322,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$app$2f$components$
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$app$2f$components$2f$Footer$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/app/components/Footer.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$app$2f$components$2f$ProductGrid$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/app/components/ProductGrid.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/node_modules/next/dist/client/app-dir/link.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$context$2f$CartContext$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/context/CartContext.js [app-ssr] (ecmascript)"); // Import context
 "use client";
+;
 ;
 ;
 ;
@@ -1343,7 +1345,7 @@ function ShopContent({ onAddToCart }) {
                 children: search ? `Search Results for "${search}"` : category === 'all' ? 'All Products' : category
             }, void 0, false, {
                 fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 17,
+                lineNumber: 18,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$app$2f$components$2f$ProductGrid$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1352,91 +1354,43 @@ function ShopContent({ onAddToCart }) {
                 onAddToCart: onAddToCart
             }, void 0, false, {
                 fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 20,
+                lineNumber: 21,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/client/app/shop/page.js",
-        lineNumber: 16,
+        lineNumber: 17,
         columnNumber: 9
     }, this);
 }
 function ShopPage() {
-    const [cartCount, setCartCount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
-    const [isCartOpen, setIsCartOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [cart, setCart] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
-    // Load cart from local storage on mount
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
-            try {
-                const parsed = JSON.parse(savedCart);
-                setCart(parsed);
-                setCartCount(parsed.reduce((sum, item)=>sum + (item.quantity || 0), 0));
-            } catch (e) {
-                console.error("Failed to parse cart", e);
-            }
-        }
-    }, []);
-    const addToCart = (product, size)=>{
-        const productId = product._id || product.id;
-        setCart((prev)=>{
-            const existing = prev.find((item)=>item.id === productId && item.size === size);
-            let newCart;
-            if (existing) {
-                newCart = prev.map((item)=>item.id === productId && item.size === size ? {
-                        ...item,
-                        quantity: item.quantity + 1
-                    } : item);
-            } else {
-                newCart = [
-                    ...prev,
-                    {
-                        id: productId,
-                        name: product.name,
-                        price: product.price,
-                        image: product.image,
-                        size: size,
-                        quantity: 1,
-                        category: product.category
-                    }
-                ];
-            }
-            localStorage.setItem('cart', JSON.stringify(newCart));
-            setCartCount(newCart.reduce((sum, item)=>sum + (item.quantity || 0), 0));
-            return newCart;
-        });
-        setIsCartOpen(true);
-    };
-    // TODO: Refactor CartSidebar into its own component to reduce file size
+    const { addToCart } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$context$2f$CartContext$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCart"])(); // Use global addToCart
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
         className: "min-h-screen flex flex-col",
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$app$2f$components$2f$Navbar$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                cartCount: cartCount,
-                onOpenCart: ()=>setIsCartOpen(true)
-            }, void 0, false, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$app$2f$components$2f$Navbar$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 74,
+                lineNumber: 32,
                 columnNumber: 13
             }, this),
+            " ",
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Suspense"], {
                 fallback: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "h-96 bg-gray-100 animate-pulse"
                 }, void 0, false, {
                     fileName: "[project]/client/app/shop/page.js",
-                    lineNumber: 77,
+                    lineNumber: 35,
                     columnNumber: 33
                 }, void 0),
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HeroWrapper, {}, void 0, false, {
                     fileName: "[project]/client/app/shop/page.js",
-                    lineNumber: 78,
+                    lineNumber: 36,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 77,
+                lineNumber: 35,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1448,24 +1402,24 @@ function ShopPage() {
                         children: "Loading products..."
                     }, void 0, false, {
                         fileName: "[project]/client/app/shop/page.js",
-                        lineNumber: 82,
+                        lineNumber: 40,
                         columnNumber: 37
                     }, void 0),
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ShopContent, {
                         onAddToCart: addToCart
                     }, void 0, false, {
                         fileName: "[project]/client/app/shop/page.js",
-                        lineNumber: 83,
+                        lineNumber: 42,
                         columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/client/app/shop/page.js",
-                    lineNumber: 82,
+                    lineNumber: 40,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 81,
+                lineNumber: 39,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1478,7 +1432,7 @@ function ShopPage() {
                             children: "Shop by Category"
                         }, void 0, false, {
                             fileName: "[project]/client/app/shop/page.js",
-                            lineNumber: 90,
+                            lineNumber: 49,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1495,7 +1449,7 @@ function ShopPage() {
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 93,
+                                            lineNumber: 52,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1505,18 +1459,18 @@ function ShopPage() {
                                                 children: "Cargo Pants"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/app/shop/page.js",
-                                                lineNumber: 95,
+                                                lineNumber: 54,
                                                 columnNumber: 33
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 94,
+                                            lineNumber: 53,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/app/shop/page.js",
-                                    lineNumber: 92,
+                                    lineNumber: 51,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1530,7 +1484,7 @@ function ShopPage() {
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 99,
+                                            lineNumber: 58,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1540,18 +1494,18 @@ function ShopPage() {
                                                 children: "Knot Tops"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/app/shop/page.js",
-                                                lineNumber: 101,
+                                                lineNumber: 60,
                                                 columnNumber: 33
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 100,
+                                            lineNumber: 59,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/app/shop/page.js",
-                                    lineNumber: 98,
+                                    lineNumber: 57,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1565,7 +1519,7 @@ function ShopPage() {
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 105,
+                                            lineNumber: 64,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1575,18 +1529,18 @@ function ShopPage() {
                                                 children: "Crop Tops"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/app/shop/page.js",
-                                                lineNumber: 107,
+                                                lineNumber: 66,
                                                 columnNumber: 33
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 106,
+                                            lineNumber: 65,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/app/shop/page.js",
-                                    lineNumber: 104,
+                                    lineNumber: 63,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1600,7 +1554,7 @@ function ShopPage() {
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 111,
+                                            lineNumber: 70,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1610,18 +1564,18 @@ function ShopPage() {
                                                 children: "T-Shirts"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/app/shop/page.js",
-                                                lineNumber: 113,
+                                                lineNumber: 72,
                                                 columnNumber: 33
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 112,
+                                            lineNumber: 71,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/app/shop/page.js",
-                                    lineNumber: 110,
+                                    lineNumber: 69,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1635,7 +1589,7 @@ function ShopPage() {
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 117,
+                                            lineNumber: 76,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1645,18 +1599,18 @@ function ShopPage() {
                                                 children: "Outerwear"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/app/shop/page.js",
-                                                lineNumber: 119,
+                                                lineNumber: 78,
                                                 columnNumber: 33
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 118,
+                                            lineNumber: 77,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/app/shop/page.js",
-                                    lineNumber: 116,
+                                    lineNumber: 75,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1670,7 +1624,7 @@ function ShopPage() {
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 123,
+                                            lineNumber: 82,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1680,56 +1634,46 @@ function ShopPage() {
                                                 children: "Dresses"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/app/shop/page.js",
-                                                lineNumber: 125,
+                                                lineNumber: 84,
                                                 columnNumber: 33
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/client/app/shop/page.js",
-                                            lineNumber: 124,
+                                            lineNumber: 83,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/app/shop/page.js",
-                                    lineNumber: 122,
+                                    lineNumber: 81,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/client/app/shop/page.js",
-                            lineNumber: 91,
+                            lineNumber: 50,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/client/app/shop/page.js",
-                    lineNumber: 89,
+                    lineNumber: 48,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 88,
+                lineNumber: 47,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$app$2f$components$2f$Footer$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 132,
+                lineNumber: 91,
                 columnNumber: 13
-            }, this),
-            isCartOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(CartOverlay, {
-                cart: cart,
-                onClose: ()=>setIsCartOpen(false),
-                setCart: setCart,
-                setCartCount: setCartCount
-            }, void 0, false, {
-                fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 135,
-                columnNumber: 28
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/client/app/shop/page.js",
-        lineNumber: 73,
+        lineNumber: 31,
         columnNumber: 9
     }, this);
 }
@@ -1747,7 +1691,7 @@ function HeroWrapper() {
                 }
             }, void 0, false, {
                 fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 148,
+                lineNumber: 103,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1760,7 +1704,7 @@ function HeroWrapper() {
                             children: "Contemporary Style for Modern Life"
                         }, void 0, false, {
                             fileName: "[project]/client/app/shop/page.js",
-                            lineNumber: 151,
+                            lineNumber: 106,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1768,7 +1712,7 @@ function HeroWrapper() {
                             children: "Discover the latest trends in fashion with our premium quality clothing line."
                         }, void 0, false, {
                             fileName: "[project]/client/app/shop/page.js",
-                            lineNumber: 152,
+                            lineNumber: 107,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1780,7 +1724,7 @@ function HeroWrapper() {
                                     children: "Shop Now"
                                 }, void 0, false, {
                                     fileName: "[project]/client/app/shop/page.js",
-                                    lineNumber: 154,
+                                    lineNumber: 109,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -1790,204 +1734,30 @@ function HeroWrapper() {
                                     children: "View Our Instagram"
                                 }, void 0, false, {
                                     fileName: "[project]/client/app/shop/page.js",
-                                    lineNumber: 157,
+                                    lineNumber: 112,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/client/app/shop/page.js",
-                            lineNumber: 153,
+                            lineNumber: 108,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/client/app/shop/page.js",
-                    lineNumber: 150,
+                    lineNumber: 105,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 149,
+                lineNumber: 104,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/client/app/shop/page.js",
-        lineNumber: 147,
-        columnNumber: 9
-    }, this);
-}
-function CartOverlay({ cart, onClose, setCart, setCartCount }) {
-    // Basic Cart UI - can be expanded
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "fixed inset-0 z-[100] flex justify-end",
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute inset-0 bg-black/50 backdrop-blur-sm",
-                onClick: onClose
-            }, void 0, false, {
-                fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 171,
-                columnNumber: 13
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "relative w-full md:w-96 bg-white h-full shadow-2xl flex flex-col cart-sidebar cart-open",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "p-4 border-b flex justify-between items-center",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                className: "text-xl font-bold",
-                                children: "Your Cart"
-                            }, void 0, false, {
-                                fileName: "[project]/client/app/shop/page.js",
-                                lineNumber: 174,
-                                columnNumber: 21
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: onClose,
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
-                                    className: "fas fa-times"
-                                }, void 0, false, {
-                                    fileName: "[project]/client/app/shop/page.js",
-                                    lineNumber: 175,
-                                    columnNumber: 47
-                                }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/client/app/shop/page.js",
-                                lineNumber: 175,
-                                columnNumber: 21
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/client/app/shop/page.js",
-                        lineNumber: 173,
-                        columnNumber: 17
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex-1 overflow-auto p-4",
-                        children: cart.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-gray-500 text-center mt-10",
-                            children: "Cart is empty"
-                        }, void 0, false, {
-                            fileName: "[project]/client/app/shop/page.js",
-                            lineNumber: 178,
-                            columnNumber: 42
-                        }, this) : cart.map((item, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex py-4 border-b",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                        src: item.image,
-                                        className: "w-16 h-16 object-cover rounded mr-4"
-                                    }, void 0, false, {
-                                        fileName: "[project]/client/app/shop/page.js",
-                                        lineNumber: 181,
-                                        columnNumber: 33
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                                className: "font-medium",
-                                                children: item.name
-                                            }, void 0, false, {
-                                                fileName: "[project]/client/app/shop/page.js",
-                                                lineNumber: 183,
-                                                columnNumber: 37
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "text-sm text-gray-600",
-                                                children: [
-                                                    "Size: ",
-                                                    item.size,
-                                                    " | Qty: ",
-                                                    item.quantity
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/client/app/shop/page.js",
-                                                lineNumber: 184,
-                                                columnNumber: 37
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "font-bold",
-                                                children: [
-                                                    "KES ",
-                                                    (item.price * item.quantity).toFixed(2)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/client/app/shop/page.js",
-                                                lineNumber: 185,
-                                                columnNumber: 37
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/client/app/shop/page.js",
-                                        lineNumber: 182,
-                                        columnNumber: 33
-                                    }, this)
-                                ]
-                            }, `${item.id}-${item.size}-${idx}`, true, {
-                                fileName: "[project]/client/app/shop/page.js",
-                                lineNumber: 180,
-                                columnNumber: 29
-                            }, this))
-                    }, void 0, false, {
-                        fileName: "[project]/client/app/shop/page.js",
-                        lineNumber: 177,
-                        columnNumber: 17
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "p-4 border-t bg-gray-50",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                className: "flex justify-between font-bold text-lg mb-4",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        children: "Total:"
-                                    }, void 0, false, {
-                                        fileName: "[project]/client/app/shop/page.js",
-                                        lineNumber: 193,
-                                        columnNumber: 25
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        children: [
-                                            "KES ",
-                                            cart.reduce((sum, item)=>sum + item.price * item.quantity, 0).toFixed(2)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/client/app/shop/page.js",
-                                        lineNumber: 194,
-                                        columnNumber: 25
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/client/app/shop/page.js",
-                                lineNumber: 192,
-                                columnNumber: 21
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                className: "w-full bg-black text-white py-3 rounded hover:bg-gray-800",
-                                children: "Checkout"
-                            }, void 0, false, {
-                                fileName: "[project]/client/app/shop/page.js",
-                                lineNumber: 196,
-                                columnNumber: 21
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/client/app/shop/page.js",
-                        lineNumber: 191,
-                        columnNumber: 17
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/client/app/shop/page.js",
-                lineNumber: 172,
-                columnNumber: 13
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/client/app/shop/page.js",
-        lineNumber: 170,
+        lineNumber: 102,
         columnNumber: 9
     }, this);
 }
