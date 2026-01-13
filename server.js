@@ -50,7 +50,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Security Headers
-app.use(helmet());
+// app.use(helmet());
 
 // Data Sanitization against NoSQL Injection
 app.use(mongoSanitize());
