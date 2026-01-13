@@ -3808,3 +3808,1270 @@ Import traces:
     ./client/app/contact/page.js [Server Component]
 
 https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/layout.js:4:1
+Module not found: Can't resolve '@/app/components/CartSidebar'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { CartProvider } from '@/context/CartContext';
+> 4 | import CartSidebar from '@/app/components/CartSidebar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+  7 |
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/layout.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | import './globals.css';
+  2 | import { Inter } from 'next/font/google';
+> 3 | import { CartProvider } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import CartSidebar from '@/app/components/CartSidebar';
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/shop/page.js:5:1
+Module not found: Can't resolve '@/app/components/Footer'
+  3 | import { useSearchParams } from 'next/navigation';
+  4 | import Navbar from '@/app/components/Navbar';
+> 5 | import Footer from '@/app/components/Footer';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/shop/page.js:4:1
+Module not found: Can't resolve '@/app/components/Navbar'
+  2 | import { Suspense } from 'react';
+  3 | import { useSearchParams } from 'next/navigation';
+> 4 | import Navbar from '@/app/components/Navbar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Footer from '@/app/components/Footer';
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/shop/page.js:6:1
+Module not found: Can't resolve '@/app/components/ProductGrid'
+  4 | import Navbar from '@/app/components/Navbar';
+  5 | import Footer from '@/app/components/Footer';
+> 6 | import ProductGrid from '@/app/components/ProductGrid';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+  9 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/shop/page.js:8:1
+Module not found: Can't resolve '@/context/CartContext'
+   6 | import ProductGrid from '@/app/components/ProductGrid';
+   7 | import Link from 'next/link';
+>  8 | import { useCart } from '@/context/CartContext'; // Import context
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | // Helper to wrap useSearchParams for Suspense
+  11 | function ShopContent({ onAddToCart }) {
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/checkout/page.js:8:1
+Module not found: Can't resolve '@/app/components/Footer'
+   6 | import { motion } from 'framer-motion';
+   7 | import Navbar from '@/app/components/Navbar';
+>  8 | import Footer from '@/app/components/Footer';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+  11 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/checkout/page.js:7:1
+Module not found: Can't resolve '@/app/components/Navbar'
+   5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+   6 | import { motion } from 'framer-motion';
+>  7 | import Navbar from '@/app/components/Navbar';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import Footer from '@/app/components/Footer';
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/checkout/page.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | "use client";
+  2 | import { useState, useEffect } from 'react';
+> 3 | import { useCart } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation';
+  5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+  6 | import { motion } from 'framer-motion';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/contact/page.js:2:1
+Module not found: Can't resolve '@/app/components/StaticPageLayout'
+  1 | "use client";
+> 2 | import StaticPageLayout from '@/app/components/StaticPageLayout';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function ContactPage() {
+  5 |     return (
+
+Import traces:
+  Client Component Browser:
+    ./client/app/contact/page.js [Client Component Browser]
+    ./client/app/contact/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/contact/page.js [Client Component SSR]
+    ./client/app/contact/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/layout.js:4:1
+Module not found: Can't resolve '@/app/components/CartSidebar'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { CartProvider } from '@/context/CartContext';
+> 4 | import CartSidebar from '@/app/components/CartSidebar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+  7 |
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/layout.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | import './globals.css';
+  2 | import { Inter } from 'next/font/google';
+> 3 | import { CartProvider } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import CartSidebar from '@/app/components/CartSidebar';
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/shop/page.js:5:1
+Module not found: Can't resolve '@/app/components/Footer'
+  3 | import { useSearchParams } from 'next/navigation';
+  4 | import Navbar from '@/app/components/Navbar';
+> 5 | import Footer from '@/app/components/Footer';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/shop/page.js:4:1
+Module not found: Can't resolve '@/app/components/Navbar'
+  2 | import { Suspense } from 'react';
+  3 | import { useSearchParams } from 'next/navigation';
+> 4 | import Navbar from '@/app/components/Navbar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Footer from '@/app/components/Footer';
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/shop/page.js:6:1
+Module not found: Can't resolve '@/app/components/ProductGrid'
+  4 | import Navbar from '@/app/components/Navbar';
+  5 | import Footer from '@/app/components/Footer';
+> 6 | import ProductGrid from '@/app/components/ProductGrid';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+  9 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/shop/page.js:8:1
+Module not found: Can't resolve '@/context/CartContext'
+   6 | import ProductGrid from '@/app/components/ProductGrid';
+   7 | import Link from 'next/link';
+>  8 | import { useCart } from '@/context/CartContext'; // Import context
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | // Helper to wrap useSearchParams for Suspense
+  11 | function ShopContent({ onAddToCart }) {
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/checkout/page.js:8:1
+Module not found: Can't resolve '@/app/components/Footer'
+   6 | import { motion } from 'framer-motion';
+   7 | import Navbar from '@/app/components/Navbar';
+>  8 | import Footer from '@/app/components/Footer';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+  11 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/checkout/page.js:7:1
+Module not found: Can't resolve '@/app/components/Navbar'
+   5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+   6 | import { motion } from 'framer-motion';
+>  7 | import Navbar from '@/app/components/Navbar';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import Footer from '@/app/components/Footer';
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/checkout/page.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | "use client";
+  2 | import { useState, useEffect } from 'react';
+> 3 | import { useCart } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation';
+  5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+  6 | import { motion } from 'framer-motion';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:34.738] Browser ERROR   ./client/app/contact/page.js:2:1
+Module not found: Can't resolve '@/app/components/StaticPageLayout'
+  1 | "use client";
+> 2 | import StaticPageLayout from '@/app/components/StaticPageLayout';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function ContactPage() {
+  5 |     return (
+
+Import traces:
+  Client Component Browser:
+    ./client/app/contact/page.js [Client Component Browser]
+    ./client/app/contact/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/contact/page.js [Client Component SSR]
+    ./client/app/contact/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/layout.js:4:1
+Module not found: Can't resolve '@/app/components/CartSidebar'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { CartProvider } from '@/context/CartContext';
+> 4 | import CartSidebar from '@/app/components/CartSidebar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+  7 |
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/layout.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | import './globals.css';
+  2 | import { Inter } from 'next/font/google';
+> 3 | import { CartProvider } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import CartSidebar from '@/app/components/CartSidebar';
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/shop/page.js:5:1
+Module not found: Can't resolve '@/app/components/Footer'
+  3 | import { useSearchParams } from 'next/navigation';
+  4 | import Navbar from '@/app/components/Navbar';
+> 5 | import Footer from '@/app/components/Footer';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/shop/page.js:4:1
+Module not found: Can't resolve '@/app/components/Navbar'
+  2 | import { Suspense } from 'react';
+  3 | import { useSearchParams } from 'next/navigation';
+> 4 | import Navbar from '@/app/components/Navbar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Footer from '@/app/components/Footer';
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/shop/page.js:6:1
+Module not found: Can't resolve '@/app/components/ProductGrid'
+  4 | import Navbar from '@/app/components/Navbar';
+  5 | import Footer from '@/app/components/Footer';
+> 6 | import ProductGrid from '@/app/components/ProductGrid';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+  9 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/shop/page.js:8:1
+Module not found: Can't resolve '@/context/CartContext'
+   6 | import ProductGrid from '@/app/components/ProductGrid';
+   7 | import Link from 'next/link';
+>  8 | import { useCart } from '@/context/CartContext'; // Import context
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | // Helper to wrap useSearchParams for Suspense
+  11 | function ShopContent({ onAddToCart }) {
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/checkout/page.js:8:1
+Module not found: Can't resolve '@/app/components/Footer'
+   6 | import { motion } from 'framer-motion';
+   7 | import Navbar from '@/app/components/Navbar';
+>  8 | import Footer from '@/app/components/Footer';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+  11 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/checkout/page.js:7:1
+Module not found: Can't resolve '@/app/components/Navbar'
+   5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+   6 | import { motion } from 'framer-motion';
+>  7 | import Navbar from '@/app/components/Navbar';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import Footer from '@/app/components/Footer';
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/checkout/page.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | "use client";
+  2 | import { useState, useEffect } from 'react';
+> 3 | import { useCart } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation';
+  5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+  6 | import { motion } from 'framer-motion';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/contact/page.js:2:1
+Module not found: Can't resolve '@/app/components/StaticPageLayout'
+  1 | "use client";
+> 2 | import StaticPageLayout from '@/app/components/StaticPageLayout';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function ContactPage() {
+  5 |     return (
+
+Import traces:
+  Client Component Browser:
+    ./client/app/contact/page.js [Client Component Browser]
+    ./client/app/contact/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/contact/page.js [Client Component SSR]
+    ./client/app/contact/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/layout.js:4:1
+Module not found: Can't resolve '@/app/components/CartSidebar'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { CartProvider } from '@/context/CartContext';
+> 4 | import CartSidebar from '@/app/components/CartSidebar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+  7 |
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/layout.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | import './globals.css';
+  2 | import { Inter } from 'next/font/google';
+> 3 | import { CartProvider } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import CartSidebar from '@/app/components/CartSidebar';
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/shop/page.js:5:1
+Module not found: Can't resolve '@/app/components/Footer'
+  3 | import { useSearchParams } from 'next/navigation';
+  4 | import Navbar from '@/app/components/Navbar';
+> 5 | import Footer from '@/app/components/Footer';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/shop/page.js:4:1
+Module not found: Can't resolve '@/app/components/Navbar'
+  2 | import { Suspense } from 'react';
+  3 | import { useSearchParams } from 'next/navigation';
+> 4 | import Navbar from '@/app/components/Navbar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Footer from '@/app/components/Footer';
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/shop/page.js:6:1
+Module not found: Can't resolve '@/app/components/ProductGrid'
+  4 | import Navbar from '@/app/components/Navbar';
+  5 | import Footer from '@/app/components/Footer';
+> 6 | import ProductGrid from '@/app/components/ProductGrid';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+  9 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/shop/page.js:8:1
+Module not found: Can't resolve '@/context/CartContext'
+   6 | import ProductGrid from '@/app/components/ProductGrid';
+   7 | import Link from 'next/link';
+>  8 | import { useCart } from '@/context/CartContext'; // Import context
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | // Helper to wrap useSearchParams for Suspense
+  11 | function ShopContent({ onAddToCart }) {
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/checkout/page.js:8:1
+Module not found: Can't resolve '@/app/components/Footer'
+   6 | import { motion } from 'framer-motion';
+   7 | import Navbar from '@/app/components/Navbar';
+>  8 | import Footer from '@/app/components/Footer';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+  11 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/checkout/page.js:7:1
+Module not found: Can't resolve '@/app/components/Navbar'
+   5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+   6 | import { motion } from 'framer-motion';
+>  7 | import Navbar from '@/app/components/Navbar';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import Footer from '@/app/components/Footer';
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/checkout/page.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | "use client";
+  2 | import { useState, useEffect } from 'react';
+> 3 | import { useCart } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation';
+  5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+  6 | import { motion } from 'framer-motion';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:13:43.745] Browser ERROR   ./client/app/contact/page.js:2:1
+Module not found: Can't resolve '@/app/components/StaticPageLayout'
+  1 | "use client";
+> 2 | import StaticPageLayout from '@/app/components/StaticPageLayout';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function ContactPage() {
+  5 |     return (
+
+Import traces:
+  Client Component Browser:
+    ./client/app/contact/page.js [Client Component Browser]
+    ./client/app/contact/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/contact/page.js [Client Component SSR]
+    ./client/app/contact/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:14:06.736] Browser ERROR   ./client/app/layout.js:4:1
+Module not found: Can't resolve '@/app/components/CartSidebar'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { CartProvider } from '@/context/CartContext';
+> 4 | import CartSidebar from '@/app/components/CartSidebar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+  7 |
+
+https://nextjs.org/docs/messages/module-not-found
+[03:14:06.736] Browser ERROR   ./client/app/layout.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | import './globals.css';
+  2 | import { Inter } from 'next/font/google';
+> 3 | import { CartProvider } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import CartSidebar from '@/app/components/CartSidebar';
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+
+https://nextjs.org/docs/messages/module-not-found
+[03:14:06.736] Browser ERROR   ./client/app/shop/page.js:5:1
+Module not found: Can't resolve '@/app/components/Footer'
+  3 | import { useSearchParams } from 'next/navigation';
+  4 | import Navbar from '@/app/components/Navbar';
+> 5 | import Footer from '@/app/components/Footer';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:14:06.736] Browser ERROR   ./client/app/shop/page.js:4:1
+Module not found: Can't resolve '@/app/components/Navbar'
+  2 | import { Suspense } from 'react';
+  3 | import { useSearchParams } from 'next/navigation';
+> 4 | import Navbar from '@/app/components/Navbar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Footer from '@/app/components/Footer';
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:14:06.736] Browser ERROR   ./client/app/shop/page.js:6:1
+Module not found: Can't resolve '@/app/components/ProductGrid'
+  4 | import Navbar from '@/app/components/Navbar';
+  5 | import Footer from '@/app/components/Footer';
+> 6 | import ProductGrid from '@/app/components/ProductGrid';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+  9 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:14:06.736] Browser ERROR   ./client/app/shop/page.js:8:1
+Module not found: Can't resolve '@/context/CartContext'
+   6 | import ProductGrid from '@/app/components/ProductGrid';
+   7 | import Link from 'next/link';
+>  8 | import { useCart } from '@/context/CartContext'; // Import context
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | // Helper to wrap useSearchParams for Suspense
+  11 | function ShopContent({ onAddToCart }) {
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:14:06.736] Browser ERROR   ./client/app/checkout/page.js:8:1
+Module not found: Can't resolve '@/app/components/Footer'
+   6 | import { motion } from 'framer-motion';
+   7 | import Navbar from '@/app/components/Navbar';
+>  8 | import Footer from '@/app/components/Footer';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+  11 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:14:06.736] Browser ERROR   ./client/app/checkout/page.js:7:1
+Module not found: Can't resolve '@/app/components/Navbar'
+   5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+   6 | import { motion } from 'framer-motion';
+>  7 | import Navbar from '@/app/components/Navbar';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import Footer from '@/app/components/Footer';
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:14:06.736] Browser ERROR   ./client/app/checkout/page.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | "use client";
+  2 | import { useState, useEffect } from 'react';
+> 3 | import { useCart } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation';
+  5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+  6 | import { motion } from 'framer-motion';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:14:06.736] Browser ERROR   ./client/app/contact/page.js:2:1
+Module not found: Can't resolve '@/app/components/StaticPageLayout'
+  1 | "use client";
+> 2 | import StaticPageLayout from '@/app/components/StaticPageLayout';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function ContactPage() {
+  5 |     return (
+
+Import traces:
+  Client Component Browser:
+    ./client/app/contact/page.js [Client Component Browser]
+    ./client/app/contact/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/contact/page.js [Client Component SSR]
+    ./client/app/contact/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:09.735] Browser ERROR   ./client/app/layout.js:4:1
+Module not found: Can't resolve '@/app/components/CartSidebar'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { CartProvider } from '@/context/CartContext';
+> 4 | import CartSidebar from '@/app/components/CartSidebar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+  7 |
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:09.735] Browser ERROR   ./client/app/layout.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | import './globals.css';
+  2 | import { Inter } from 'next/font/google';
+> 3 | import { CartProvider } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import CartSidebar from '@/app/components/CartSidebar';
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:09.735] Browser ERROR   ./client/app/shop/page.js:5:1
+Module not found: Can't resolve '@/app/components/Footer'
+  3 | import { useSearchParams } from 'next/navigation';
+  4 | import Navbar from '@/app/components/Navbar';
+> 5 | import Footer from '@/app/components/Footer';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:09.735] Browser ERROR   ./client/app/shop/page.js:4:1
+Module not found: Can't resolve '@/app/components/Navbar'
+  2 | import { Suspense } from 'react';
+  3 | import { useSearchParams } from 'next/navigation';
+> 4 | import Navbar from '@/app/components/Navbar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Footer from '@/app/components/Footer';
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:09.735] Browser ERROR   ./client/app/shop/page.js:6:1
+Module not found: Can't resolve '@/app/components/ProductGrid'
+  4 | import Navbar from '@/app/components/Navbar';
+  5 | import Footer from '@/app/components/Footer';
+> 6 | import ProductGrid from '@/app/components/ProductGrid';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+  9 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:09.735] Browser ERROR   ./client/app/shop/page.js:8:1
+Module not found: Can't resolve '@/context/CartContext'
+   6 | import ProductGrid from '@/app/components/ProductGrid';
+   7 | import Link from 'next/link';
+>  8 | import { useCart } from '@/context/CartContext'; // Import context
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | // Helper to wrap useSearchParams for Suspense
+  11 | function ShopContent({ onAddToCart }) {
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:09.735] Browser ERROR   ./client/app/checkout/page.js:8:1
+Module not found: Can't resolve '@/app/components/Footer'
+   6 | import { motion } from 'framer-motion';
+   7 | import Navbar from '@/app/components/Navbar';
+>  8 | import Footer from '@/app/components/Footer';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+  11 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:09.735] Browser ERROR   ./client/app/checkout/page.js:7:1
+Module not found: Can't resolve '@/app/components/Navbar'
+   5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+   6 | import { motion } from 'framer-motion';
+>  7 | import Navbar from '@/app/components/Navbar';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import Footer from '@/app/components/Footer';
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:09.735] Browser ERROR   ./client/app/checkout/page.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | "use client";
+  2 | import { useState, useEffect } from 'react';
+> 3 | import { useCart } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation';
+  5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+  6 | import { motion } from 'framer-motion';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:09.735] Browser ERROR   ./client/app/contact/page.js:2:1
+Module not found: Can't resolve '@/app/components/StaticPageLayout'
+  1 | "use client";
+> 2 | import StaticPageLayout from '@/app/components/StaticPageLayout';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function ContactPage() {
+  5 |     return (
+
+Import traces:
+  Client Component Browser:
+    ./client/app/contact/page.js [Client Component Browser]
+    ./client/app/contact/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/contact/page.js [Client Component SSR]
+    ./client/app/contact/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:11.738] Browser ERROR   ./client/app/layout.js:4:1
+Module not found: Can't resolve '@/app/components/CartSidebar'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { CartProvider } from '@/context/CartContext';
+> 4 | import CartSidebar from '@/app/components/CartSidebar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+  7 |
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:11.738] Browser ERROR   ./client/app/layout.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | import './globals.css';
+  2 | import { Inter } from 'next/font/google';
+> 3 | import { CartProvider } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import CartSidebar from '@/app/components/CartSidebar';
+  5 |
+  6 | const inter = Inter({ subsets: ['latin'] });
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:11.738] Browser ERROR   ./client/app/shop/page.js:5:1
+Module not found: Can't resolve '@/app/components/Footer'
+  3 | import { useSearchParams } from 'next/navigation';
+  4 | import Navbar from '@/app/components/Navbar';
+> 5 | import Footer from '@/app/components/Footer';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:11.738] Browser ERROR   ./client/app/shop/page.js:4:1
+Module not found: Can't resolve '@/app/components/Navbar'
+  2 | import { Suspense } from 'react';
+  3 | import { useSearchParams } from 'next/navigation';
+> 4 | import Navbar from '@/app/components/Navbar';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Footer from '@/app/components/Footer';
+  6 | import ProductGrid from '@/app/components/ProductGrid';
+  7 | import Link from 'next/link';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:11.738] Browser ERROR   ./client/app/shop/page.js:6:1
+Module not found: Can't resolve '@/app/components/ProductGrid'
+  4 | import Navbar from '@/app/components/Navbar';
+  5 | import Footer from '@/app/components/Footer';
+> 6 | import ProductGrid from '@/app/components/ProductGrid';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import Link from 'next/link';
+  8 | import { useCart } from '@/context/CartContext'; // Import context
+  9 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:11.738] Browser ERROR   ./client/app/shop/page.js:8:1
+Module not found: Can't resolve '@/context/CartContext'
+   6 | import ProductGrid from '@/app/components/ProductGrid';
+   7 | import Link from 'next/link';
+>  8 | import { useCart } from '@/context/CartContext'; // Import context
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | // Helper to wrap useSearchParams for Suspense
+  11 | function ShopContent({ onAddToCart }) {
+
+Import traces:
+  Client Component Browser:
+    ./client/app/shop/page.js [Client Component Browser]
+    ./client/app/shop/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/shop/page.js [Client Component SSR]
+    ./client/app/shop/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:11.738] Browser ERROR   ./client/app/checkout/page.js:8:1
+Module not found: Can't resolve '@/app/components/Footer'
+   6 | import { motion } from 'framer-motion';
+   7 | import Navbar from '@/app/components/Navbar';
+>  8 | import Footer from '@/app/components/Footer';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+  11 |
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:11.738] Browser ERROR   ./client/app/checkout/page.js:7:1
+Module not found: Can't resolve '@/app/components/Navbar'
+   5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+   6 | import { motion } from 'framer-motion';
+>  7 | import Navbar from '@/app/components/Navbar';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import Footer from '@/app/components/Footer';
+   9 |
+  10 | const DELIVERY_FEE_OTHER = 450;
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:11.738] Browser ERROR   ./client/app/checkout/page.js:3:1
+Module not found: Can't resolve '@/context/CartContext'
+  1 | "use client";
+  2 | import { useState, useEffect } from 'react';
+> 3 | import { useCart } from '@/context/CartContext';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation';
+  5 | import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle } from 'lucide-react';
+  6 | import { motion } from 'framer-motion';
+
+Import traces:
+  Client Component Browser:
+    ./client/app/checkout/page.js [Client Component Browser]
+    ./client/app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/checkout/page.js [Client Component SSR]
+    ./client/app/checkout/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[03:18:11.738] Browser ERROR   ./client/app/contact/page.js:2:1
+Module not found: Can't resolve '@/app/components/StaticPageLayout'
+  1 | "use client";
+> 2 | import StaticPageLayout from '@/app/components/StaticPageLayout';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function ContactPage() {
+  5 |     return (
+
+Import traces:
+  Client Component Browser:
+    ./client/app/contact/page.js [Client Component Browser]
+    ./client/app/contact/page.js [Server Component]
+
+  Client Component SSR:
+    ./client/app/contact/page.js [Client Component SSR]
+    ./client/app/contact/page.js [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found

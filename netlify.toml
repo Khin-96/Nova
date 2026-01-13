@@ -1,6 +1,7 @@
 [build]
-  command = "cd client && npm install && npm run build"
-  publish = "client/.next"
+  base = "client"
+  command = "npm install && npm run build"
+  publish = ".next"
 
 [[redirects]]
   from = "/*"
@@ -9,3 +10,5 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  NEXT_PUBLIC_API_URL = "https://nova-backend-htzd.onrender.com"
+
