@@ -40,18 +40,10 @@ const allowedOrigins = [
 
 // Configure CORS options
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = "The CORS policy for this site does not allow access from the specified Origin.";
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
+  origin: allowedOrigins,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Allow cookies to be sent
-  optionsSuccessStatus: 204 // Some legacy browsers (IE11, various SmartTVs) choke on 204
+  credentials: true,
+  optionsSuccessStatus: 204
 };
 
 // Apply CORS middleware
