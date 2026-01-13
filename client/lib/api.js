@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5000"; // Point to Express Backend
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"; // Point to Express Backend
 
 export async function fetchWithFallback(endpoint) {
     try {
