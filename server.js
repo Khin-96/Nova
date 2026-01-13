@@ -45,39 +45,29 @@ const corsOptions = {
   optionsSuccessStatus: 204
 };
 
-// Custom CORS middleware
+// Basic CORS middleware
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  } else if (!origin) {
-    res.header("Access-Control-Allow-Origin", "*");
-  }
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, x-admin-api-key");
-
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(204);
-  }
+  if (req.method === "OPTIONS") return res.sendStatus(204);
   next();
 });
 
-// Security Headers
-app.use(helmet());
+// Temporarily disable security middlewares
+// app.use(helmet());
+// app.use(mongoSanitize());
+// app.use(xss());
 
-// Data Sanitization against NoSQL Injection
-app.use(mongoSanitize());
-
-// Data Sanitization against XSS
-app.use(xss());
-
-// Rate Limiting
+// Rate Limiting (Disabled)
+/*
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
   message: "Too many requests from this IP, please try again later."
 });
 app.use("/api", limiter);
+*/
 
 app.use(express.json());
 
