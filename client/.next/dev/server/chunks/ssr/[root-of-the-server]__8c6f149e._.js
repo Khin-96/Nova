@@ -127,8 +127,68 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$app$2f$components$
 ;
 ;
 const metadata = {
-    title: 'Nova Wear - We Style You',
-    description: 'Contemporary Style for Modern Life'
+    title: 'Nova Wear - Contemporary Style for Modern Life',
+    description: 'Discover the latest trends in fashion with Nova Wear. Premium quality clothing including cargo pants, crop tops, dresses, and accessories. Free delivery in Mombasa & Kilifi.',
+    keywords: [
+        'fashion',
+        'clothing',
+        'Kenya fashion',
+        'cargo pants',
+        'crop tops',
+        'dresses',
+        'streetwear',
+        'Nova Wear',
+        'Mombasa fashion'
+    ],
+    authors: [
+        {
+            name: 'Nova Wear'
+        }
+    ],
+    creator: 'Nova Wear',
+    publisher: 'Nova Wear',
+    metadataBase: new URL('https://novawears.tech'),
+    alternates: {
+        canonical: '/'
+    },
+    openGraph: {
+        title: 'Nova Wear - Contemporary Style for Modern Life',
+        description: 'Discover the latest trends in fashion with Nova Wear. Premium quality clothing for the modern individual.',
+        url: 'https://novawears.tech',
+        siteName: 'Nova Wear',
+        images: [
+            {
+                url: '/og-image.jpg',
+                width: 1200,
+                height: 630,
+                alt: 'Nova Wear Fashion Collection'
+            }
+        ],
+        locale: 'en_KE',
+        type: 'website'
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Nova Wear - Contemporary Style for Modern Life',
+        description: 'Discover the latest trends in fashion with Nova Wear.',
+        images: [
+            '/og-image.jpg'
+        ]
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1
+        }
+    },
+    verification: {
+        google: 'your-google-verification-code'
+    }
 };
 function RootLayout({ children }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("html", {
@@ -140,12 +200,12 @@ function RootLayout({ children }) {
                     href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
                 }, void 0, false, {
                     fileName: "[project]/client/app/layout.js",
-                    lineNumber: 17,
+                    lineNumber: 61,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/client/app/layout.js",
-                lineNumber: 16,
+                lineNumber: 60,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("body", {
@@ -155,24 +215,24 @@ function RootLayout({ children }) {
                         children,
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$app$2f$components$2f$CartSidebar$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                             fileName: "[project]/client/app/layout.js",
-                            lineNumber: 22,
+                            lineNumber: 66,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/client/app/layout.js",
-                    lineNumber: 20,
+                    lineNumber: 64,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/client/app/layout.js",
-                lineNumber: 19,
+                lineNumber: 63,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/client/app/layout.js",
-        lineNumber: 15,
+        lineNumber: 59,
         columnNumber: 9
     }, this);
 }

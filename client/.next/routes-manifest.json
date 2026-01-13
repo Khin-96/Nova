@@ -53,6 +53,12 @@
       "namedRegex": "^/careers(?:/)?$"
     },
     {
+      "page": "/checkout",
+      "regex": "^/checkout(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/checkout(?:/)?$"
+    },
+    {
       "page": "/contact",
       "regex": "^/contact(?:/)?$",
       "routeKeys": {},
@@ -77,6 +83,12 @@
       "namedRegex": "^/privacy\\-policy(?:/)?$"
     },
     {
+      "page": "/robots.txt",
+      "regex": "^/robots\\.txt(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/robots\\.txt(?:/)?$"
+    },
+    {
       "page": "/shipping-returns",
       "regex": "^/shipping\\-returns(?:/)?$",
       "routeKeys": {},
@@ -87,6 +99,12 @@
       "regex": "^/shop(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/shop(?:/)?$"
+    },
+    {
+      "page": "/sitemap.xml",
+      "regex": "^/sitemap\\.xml(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sitemap\\.xml(?:/)?$"
     },
     {
       "page": "/size-guide",

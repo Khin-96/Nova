@@ -3,13 +3,16 @@
   "/_not-found/page": "app/_not-found/page.js",
   "/admin/page": "app/admin/page.js",
   "/careers/page": "app/careers/page.js",
+  "/checkout/page": "app/checkout/page.js",
   "/contact/page": "app/contact/page.js",
   "/faq/page": "app/faq/page.js",
   "/our-story/page": "app/our-story/page.js",
   "/page": "app/page.js",
   "/privacy-policy/page": "app/privacy-policy/page.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
   "/shipping-returns/page": "app/shipping-returns/page.js",
   "/shop/page": "app/shop/page.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js",
   "/size-guide/page": "app/size-guide/page.js",
   "/sustainability/page": "app/sustainability/page.js"
 }
