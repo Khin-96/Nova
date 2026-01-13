@@ -37,7 +37,7 @@ const upload = multer({
 router.get("/featured", async (req, res) => {
   try {
     const products = await Product.find().limit(34);
-    res.json(products);
+    res.json({ products, debug: "V11-ISOLATION-TEST", deployedAt: new Date().toISOString() });
   } catch (err) {
     console.error("Error fetching featured products:", err.message);
     res.status(500).json({ msg: "Server Error: Could not fetch products" });
@@ -159,7 +159,7 @@ router.get("/", async (req, res) => {
 
   try {
     const products = await Product.find(query).sort({ createdAt: -1 }); // Sort by newest first
-    res.json(products);
+    res.json({ products, debug: "V11-ISOLATION-TEST", deployedAt: new Date().toISOString() });
   } catch (err) {
     console.error("Error fetching products:", err.message);
     res.status(500).json({ msg: "Server Error: Could not fetch products" });
