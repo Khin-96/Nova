@@ -40,7 +40,7 @@ const allowedOrigins = [
 
 // Configure CORS options
 const corsOptions = {
-  origin: allowedOrigins,
+  origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204
