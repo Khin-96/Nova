@@ -1,5 +1,5 @@
-const express = require("express");
 const axios = require("axios");
+const Order = require("../models/Order");
 
 const router = express.Router();
 
@@ -38,7 +38,7 @@ async function getDarajaToken() {
 // @desc    Initiate M-Pesa STK Push
 // @access  Public (should be protected in a real app)
 router.post("/stkpush", async (req, res) => {
-  const { phone, amount } = req.body;
+  const { phone, amount, orderId } = req.body;
 
   // Basic validation
   if (!phone || !amount) {
@@ -101,7 +101,15 @@ router.post("/stkpush", async (req, res) => {
 
     // Check Daraja response
     if (response.data && response.data.ResponseCode === "0") {
-      // STK Push initiated successfully
+      // Link Mpesa request to Order if orderId provided
+      if (orderId) {
+        await Order.findByIdAndUpdate(orderId, {
+          checkoutRequestId: response.data.CheckoutRequestID,
+          merchantRequestId: response.data.MerchantRequestID,
+          status: 'pending' // Ensure it's pending
+        });
+      }
+
       console.log("STK Push initiated:", response.data);
       res.json({ msg: "STK Push initiated. Please enter your M-Pesa PIN on your phone.", data: response.data });
     } else {
@@ -120,16 +128,39 @@ router.post("/stkpush", async (req, res) => {
 // @route   POST /api/mpesa/callback
 // @desc    Receive M-Pesa payment confirmation/result
 // @access  Public (from Safaricom)
-router.post("/callback", (req, res) => {
+router.post("/callback", async (req, res) => {
   console.log("--- M-Pesa Callback Received ---");
-  console.log(JSON.stringify(req.body, null, 2));
-  console.log("---------------------------------");
+  const callbackData = req.body.Body.stkCallback;
+  console.log(JSON.stringify(callbackData, null, 2));
 
-  // TODO: Process the callback data
-  // 1. Check if ResultCode is 0 (success)
-  // 2. Find the corresponding order in your database using MerchantRequestID or CheckoutRequestID
-  // 3. Update the order status to \'paid\'
-  // 4. Handle potential errors or cancellations (ResultCode != 0)
+  const { MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc, CallbackMetadata } = callbackData;
+
+  try {
+    // Find order by CheckoutRequestID
+    const order = await Order.findOne({ checkoutRequestId: CheckoutRequestID });
+
+    if (order) {
+      if (ResultCode === 0) {
+        // Success: Extract Receipt Number
+        const metadata = CallbackMetadata.Item;
+        const receiptItem = metadata.find(item => item.Name === 'MpesaReceiptNumber');
+        const receiptNumber = receiptItem ? receiptItem.Value : 'N/A';
+
+        order.status = 'processing'; // Mark as paid
+        order.mpesaReceiptNumber = receiptNumber;
+        console.log(`Order ${order.orderId} paid successfully. Receipt: ${receiptNumber}`);
+      } else {
+        // Failure or Cancellation
+        order.status = 'cancelled';
+        console.log(`Order ${order.orderId} payment failed/cancelled. Result: ${ResultCode} (${ResultDesc})`);
+      }
+      await order.save();
+    } else {
+      console.warn(`No order found for CheckoutRequestID: ${CheckoutRequestID}`);
+    }
+  } catch (error) {
+    console.error("Error processing M-Pesa callback:", error);
+  }
 
   // Respond to Safaricom to acknowledge receipt
   res.status(200).json({ ResultCode: 0, ResultDesc: "Accepted" });

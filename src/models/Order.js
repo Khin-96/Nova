@@ -17,6 +17,8 @@ const orderSchema = new mongoose.Schema({
     total: { type: Number, required: true },
     status: { type: String, default: 'pending', enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'] },
     mpesaReceiptNumber: { type: String },
+    checkoutRequestId: { type: String },
+    merchantRequestId: { type: String },
     createdAt: { type: Date, default: Date.now }
 });
 

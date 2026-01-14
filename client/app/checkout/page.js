@@ -6,6 +6,7 @@ import { Smartphone, QrCode, Lock, MapPin, ShoppingBag, ArrowLeft, CheckCircle }
 import { motion } from 'framer-motion';
 import Navbar from '@/app/components/Navbar';
 import Footer from '@/app/components/Footer';
+import { API_BASE_URL } from '@/lib/api';
 
 const DELIVERY_FEE_OTHER = 450;
 
@@ -39,23 +40,31 @@ export default function CheckoutPage() {
                 setMessage({ text: "Please enter a valid M-Pesa number (e.g., 254712345678).", type: "error" });
                 return;
             }
-            // Proceed with STK Push
-            await initiateStkPush();
+            // 1. Create Order First
+            const orderId = await createOrderAfterPayment(mpesaPhone, "M-Pesa STK");
+            if (!orderId) return;
+
+            // 2. Proceed with STK Push
+            await initiateStkPush(orderId);
+
+            // 3. Clear cart and show success (pending payment)
+            setOrderSuccess(true);
+            clearCart();
         } else {
             // Generate QR Code
             await generateQrCode();
         }
     };
 
-    const initiateStkPush = async () => {
+    const initiateStkPush = async (orderId) => {
         setIsProcessing(true);
         setMessage({ text: "Processing payment...", type: "info" });
 
         try {
-            const res = await fetch('http://localhost:5000/api/mpesa/stkpush', {
+            const res = await fetch(`${API_BASE_URL}/api/mpesa/stkpush`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ phone: mpesaPhone, amount: finalTotal }),
+                body: JSON.stringify({ phone: mpesaPhone, amount: finalTotal, orderId: orderId }),
             });
 
             const data = await res.json();
@@ -80,7 +89,7 @@ export default function CheckoutPage() {
         setQrCodeData(null); // Reset previous
 
         try {
-            const res = await fetch('http://localhost:5000/api/mpesa/qrcode', {
+            const res = await fetch(`${API_BASE_URL}/api/mpesa/qrcode`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -131,16 +140,17 @@ export default function CheckoutPage() {
         };
 
         try {
-            await fetch('http://localhost:5000/api/orders', {
+            const res = await fetch(`${API_BASE_URL}/api/orders`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(orderData)
             });
-            setOrderSuccess(true);
-            clearCart();
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.msg || "Failed to create order");
+            return data.orderId || data._id;
         } catch (err) {
             console.error("Failed to save order", err);
-            setMessage({ text: "Payment successful, but order saving failed. Please contact support.", type: "error" });
+            throw err;
         }
     };
 

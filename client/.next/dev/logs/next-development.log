@@ -4,3 +4,48 @@
 [00:27:08.734] Server  LOG     ✓ Compiled in 219ms
 [00:41:53.406] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
 [00:42:34.555] Server  LOG     ✓ Compiled in 3.4s
+[02:04:36.496] Server  LOG     ✓ Compiled in 3.4s
+[02:04:37.073] Browser ERROR   ./app/checkout/page.js:9:1
+Export API_BASE_URL doesn't exist in target module
+   7 | import Navbar from '@/app/components/Navbar';
+   8 | import Footer from '@/app/components/Footer';
+>  9 | import { API_BASE_URL } from '@/lib/api';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  10 |
+  11 | const DELIVERY_FEE_OTHER = 450;
+  12 |
+
+The export API_BASE_URL was not found in module [project]/lib/api.js [app-client] (ecmascript).
+Did you mean to import FALLBACK_PRODUCTS?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/checkout/page.js [Client Component Browser]
+    ./app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/checkout/page.js [Client Component SSR]
+    ./app/checkout/page.js [Server Component]
+[02:04:37.073] Browser ERROR   ./app/checkout/page.js:9:1
+Export API_BASE_URL doesn't exist in target module
+   7 | import Navbar from '@/app/components/Navbar';
+   8 | import Footer from '@/app/components/Footer';
+>  9 | import { API_BASE_URL } from '@/lib/api';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  10 |
+  11 | const DELIVERY_FEE_OTHER = 450;
+  12 |
+
+The export API_BASE_URL was not found in module [project]/lib/api.js [app-ssr] (ecmascript).
+Did you mean to import FALLBACK_PRODUCTS?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/checkout/page.js [Client Component Browser]
+    ./app/checkout/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/checkout/page.js [Client Component SSR]
+    ./app/checkout/page.js [Server Component]
