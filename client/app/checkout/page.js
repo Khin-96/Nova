@@ -11,6 +11,7 @@ import { API_BASE_URL } from '@/lib/api';
 const DELIVERY_FEE_OTHER = 450;
 
 export default function CheckoutPage() {
+    console.log("DEBUG: API_BASE_URL is", API_BASE_URL);
     const { cart, cartTotal, clearCart } = useCart();
     const router = useRouter();
 
