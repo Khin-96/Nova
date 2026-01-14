@@ -49,3 +49,5 @@ Import traces:
   Client Component SSR:
     ./app/checkout/page.js [Client Component SSR]
     ./app/checkout/page.js [Server Component]
+[02:12:43.800] Server  LOG     ✓ Compiled in 700ms
+[02:24:41.054] Server  LOG     ✓ Compiled in 556ms

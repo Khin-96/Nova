@@ -73,9 +73,6 @@ export default function CheckoutPage() {
 
             setMessage({ text: "STK Push sent! Check your phone.", type: "success" });
 
-            // Simulate order creation on success
-            await createOrderAfterPayment(mpesaPhone, "M-Pesa STK");
-
         } catch (error) {
             console.error(error);
             setMessage({ text: `Error: ${error.message}`, type: "error" });
