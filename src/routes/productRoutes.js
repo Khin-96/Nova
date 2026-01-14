@@ -37,8 +37,6 @@ const upload = multer({
 router.get("/featured", async (req, res) => {
   try {
     const products = await Product.find().limit(34);
-    res.setHeader('X-Debug-Marker', 'V12-CONTRACT-FIX');
-    res.setHeader('X-Deployed-At', new Date().toISOString());
     res.json(products);
   } catch (err) {
     console.error("Error fetching featured products:", err.message);
@@ -161,8 +159,6 @@ router.get("/", async (req, res) => {
 
   try {
     const products = await Product.find(query).sort({ createdAt: -1 }); // Sort by newest first
-    res.setHeader('X-Debug-Marker', 'V12-CONTRACT-FIX');
-    res.setHeader('X-Deployed-At', new Date().toISOString());
     res.json(products);
   } catch (err) {
     console.error("Error fetching products:", err.message);

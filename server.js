@@ -1,4 +1,3 @@
-// Build Nudge - V11
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
@@ -22,34 +21,7 @@ const analyticsRoutes = require("./src/routes/analyticsRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// 1. ABSOLUTE TOP MIDDLEWARE: Simple Wildcard CORS for Debugging
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, x-admin-api-key");
-  if (req.method === "OPTIONS") return res.sendStatus(204);
-  next();
-});
-
-// 2. DIAGNOSTIC ROUTES
-app.get("/api/health-check", (req, res) => {
-  res.status(200).json({ status: "ok", message: "Health check passed" });
-});
-
-app.get("/api/info", (req, res) => {
-  res.status(200).json({
-    headers: req.headers,
-    method: req.method,
-    url: req.url,
-    node_env: process.env.NODE_ENV
-  });
-});
-
-// 3. SERVICE INITIALIZATION
-const { trackUserAction, getRecommendations } = require("./src/services/recommendationService");
-const { connectProducer } = require("./src/lib/kafka");
-
-// Connect Kafka (fire and forget)
+// Connect Kafka (fire and forget connectivity check)
 connectProducer();
 
 // Middleware
@@ -69,29 +41,25 @@ const corsOptions = {
   optionsSuccessStatus: 204
 };
 
-// Basic CORS middleware
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, x-admin-api-key");
-  if (req.method === "OPTIONS") return res.sendStatus(204);
-  next();
-});
+// Apply CORS middleware
+app.use(cors(corsOptions));
 
-// Temporarily disable security middlewares
-// app.use(helmet());
-// app.use(mongoSanitize());
-// app.use(xss());
+// Security Headers
+app.use(helmet());
 
-// Rate Limiting (Disabled)
-/*
+// Data Sanitization against NoSQL Injection
+app.use(mongoSanitize());
+
+// Data Sanitization against XSS
+app.use(xss());
+
+// Rate Limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, 
-  max: 100, 
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
   message: "Too many requests from this IP, please try again later."
 });
 app.use("/api", limiter);
-*/
 
 app.use(express.json());
 
@@ -172,8 +140,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
     message: 'Internal Server Error',
-    error: err.message, // Always show error message for debugging
-    stack: err.stack
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
   });
 });
 
