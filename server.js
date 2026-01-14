@@ -21,6 +21,10 @@ const analyticsRoutes = require("./src/routes/analyticsRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Service Initialization
+const { trackUserAction, getRecommendations } = require("./src/services/recommendationService");
+const { connectProducer } = require("./src/lib/kafka");
+
 // Connect Kafka (fire and forget connectivity check)
 connectProducer();
 
