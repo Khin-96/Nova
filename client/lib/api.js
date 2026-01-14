@@ -1,4 +1,4 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"; // Point to Express Backend
+export const API_BASE_URL = "https://nova-backend-htzd.onrender.com"; // Forced production URL
 
 export async function fetchWithFallback(endpoint) {
     try {
