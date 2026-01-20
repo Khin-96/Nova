@@ -32,6 +32,26 @@ router.post('/', async (req, res) => {
     }
 });
 
+// @route   GET /api/orders/:orderId
+// @desc    Get order by orderId
+// @access  Public
+router.get('/:orderId', async (req, res) => {
+    const { orderId } = req.params;
+    console.log(`GET Order Request: ${orderId}`);
+    try {
+        // Use findOne with the specific orderId field to avoid _id casting
+        const order = await Order.findOne({ orderId: String(orderId) });
+        if (!order) {
+            console.warn(`Order ${orderId} not found.`);
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        res.json(order);
+    } catch (err) {
+        console.error(`Error fetching order ${orderId}:`, err);
+        res.status(500).json({ message: 'Server Error: ' + err.message });
+    }
+});
+
 // @route   GET /api/orders
 // @desc    Get all orders (with filtering)
 // @access  Private (Admin)
@@ -47,6 +67,27 @@ router.get('/', async (req, res) => {
     } catch (err) {
         console.error("Error in PATCH /orders/:id/deliver:", err);
         res.status(500).json({ message: 'Server Error: ' + err.message });
+    }
+});
+
+// @route   PATCH /api/orders/:id/status
+// @desc    Update order status
+// @access  Private (Admin)
+router.patch('/:id/status', async (req, res) => {
+    try {
+        const { status } = req.body;
+        const order = await Order.findByIdAndUpdate(
+            req.params.id,
+            { status },
+            { new: true }
+        );
+
+        if (!order) return res.status(404).json({ message: 'Order not found' });
+
+        res.json(order);
+    } catch (err) {
+        console.error("Error updating status:", err);
+        res.status(500).json({ message: 'Server Error' });
     }
 });
 

@@ -104,11 +104,26 @@ router.post("/stkpush", async (req, res) => {
     if (response.data && response.data.ResponseCode === "0") {
       // Link Mpesa request to Order if orderId provided
       if (orderId) {
-        await Order.findByIdAndUpdate(orderId, {
-          checkoutRequestId: response.data.CheckoutRequestID,
-          merchantRequestId: response.data.MerchantRequestID,
-          status: 'pending' // Ensure it's pending
-        });
+        try {
+          console.log(`Linking STK Push to Order Record: ${orderId}`);
+          // Force orderId to string explicitly to prevent Mongoose cast issues
+          const order = await Order.findOne({ orderId: { $eq: String(orderId) } });
+          if (order) {
+            order.checkoutRequestId = response.data.CheckoutRequestID;
+            order.merchantRequestId = response.data.MerchantRequestID;
+            order.status = 'pending';
+            await order.save();
+            console.log(`Order record updated for: ${orderId}`);
+          } else {
+            console.warn(`Warning: Order ${orderId} not found for linking.`);
+          }
+        } catch (error) {
+          console.error("Non-fatal error updating order record:", error);
+          // Log the error but do not prevent the STK push success response to the client
+          // as the Daraja API call itself was successful.
+        } finally {
+          // We don't throw here so the user still gets the STK push if Daraja succeeded
+        }
       }
 
       console.log("STK Push initiated:", response.data);

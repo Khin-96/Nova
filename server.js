@@ -92,20 +92,19 @@ app.use("/api/products", (req, res, next) => {
   next();
 }, productRoutes); // Mount product routes with conditional auth
 app.use("/api/orders", (req, res, next) => {
-  // Apply auth middleware only for mutation methods
-  if (["POST", "PUT", "DELETE", "PATCH"].includes(req.method)) {
-    // If it's a POST (create order), it might be public (customer checkout). 
-    // Check if it's NOT the checkout route if checkout is different.
-    // Actually, create order (POST /api/orders) is PUBLIC.
-    // Update/Delete/Get ALL is ADMIN.
-    if (req.method === 'POST') return next();
-    return verifyAdminKey(req, res, next);
-  }
-  // GET /api/orders allows viewing all orders? That should be ADMIN only.
-  // The route is router.get('/', ...).
-  if (req.method === 'GET') return verifyAdminKey(req, res, next);
+  // Public Routes:
+  // 1. POST /api/orders (Checkout)
+  // 2. GET /api/orders/:orderId (Status Polling)
 
-  next();
+  if (req.method === 'POST') return next();
+
+  // Check if it's a GET for a single order (polling)
+  if (req.method === 'GET' && req.path !== '/' && req.path !== '') {
+    return next();
+  }
+
+  // All other methods (Admin products list, PATCH, DELETE) require Admin Key
+  return verifyAdminKey(req, res, next);
 }, orderRoutes);
 app.use("/api", contactRoutes);
 app.use("/api", subscriptionRoutes);

@@ -1756,6 +1756,10 @@
     color: var(--color-green-800);
   }
 
+  .text-indigo-500 {
+    color: var(--color-indigo-500);
+  }
+
   .text-indigo-600 {
     color: var(--color-indigo-600);
   }
@@ -2091,8 +2095,8 @@
   }
 
   @media (hover: hover) {
-    .hover\:bg-green-700:hover {
-      background-color: var(--color-green-700);
+    .hover\:bg-indigo-50:hover {
+      background-color: var(--color-indigo-50);
     }
   }
 
@@ -2105,12 +2109,6 @@
   @media (hover: hover) {
     .hover\:bg-red-50:hover {
       background-color: var(--color-red-50);
-    }
-  }
-
-  @media (hover: hover) {
-    .hover\:bg-red-200:hover {
-      background-color: var(--color-red-200);
     }
   }
 

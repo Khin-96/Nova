@@ -13,7 +13,8 @@ import {
     Loader2,
     Briefcase,
     BarChart3,
-    TrendingUp
+    TrendingUp,
+    Edit
 } from 'lucide-react';
 import {
     Chart as ChartJS,
@@ -70,6 +71,8 @@ export default function AdminDashboard() {
         sizes: [],
         tags: []
     });
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingId, setEditingId] = useState(null);
 
     // Fetch Data on Tab Change
     useEffect(() => {
@@ -119,24 +122,45 @@ export default function AdminDashboard() {
         // Re-reading admin.js: "const tags = Array.from...". No sizes.
 
         try {
-            const res = await fetch(`${API_BASE_URL}/api/products`, {
-                method: 'POST',
+            const url = isEditing
+                ? `${API_BASE_URL}/api/products/${editingId}`
+                : `${API_BASE_URL}/api/products`;
+            const method = isEditing ? 'PUT' : 'POST';
+
+            const res = await fetch(url, {
+                method,
                 body: formData,
                 headers: { 'x-admin-api-key': localStorage.getItem('ADMIN_API_KEY') || '' }
-                // Note: headers Content-Type should NOT be set for FormData (browser does it) but auth headers needed
             });
             if (!res.ok) {
                 const err = await res.json();
-                throw new Error(err.msg || 'Failed to create');
+                throw new Error(err.msg || 'Action failed');
             }
-            showMessage('Product added successfully');
+            showMessage(`Product ${isEditing ? 'updated' : 'added'} successfully`);
             setNewProduct({ name: '', category: '', price: '', image: null, sizes: [], tags: [] });
+            setIsEditing(false);
+            setEditingId(null);
             fetchProducts();
         } catch (err) {
             showMessage(err.message, 'error');
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const handleEditProduct = (product) => {
+        setNewProduct({
+            name: product.name,
+            category: product.category,
+            price: product.price,
+            image: null, // Don't pre-fill file input
+            sizes: product.sizes || [],
+            tags: product.tags || []
+        });
+        setIsEditing(true);
+        setEditingId(product.id || product._id);
+        // Scroll to form
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const handleDeleteProduct = async (id) => {
@@ -362,7 +386,21 @@ export default function AdminDashboard() {
                 {activeTab === 'products' && (
                     <div className="space-y-6">
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <h2 className="text-xl font-bold mb-4">Add New Product</h2>
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-bold">{isEditing ? 'Edit Product' : 'Add New Product'}</h2>
+                                {isEditing && (
+                                    <button
+                                        onClick={() => {
+                                            setIsEditing(false);
+                                            setEditingId(null);
+                                            setNewProduct({ name: '', category: '', price: '', image: null, sizes: [], tags: [] });
+                                        }}
+                                        className="text-sm text-gray-500 hover:text-black font-medium"
+                                    >
+                                        Cancel Editing
+                                    </button>
+                                )}
+                            </div>
                             <form onSubmit={handleCreateProduct} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-4">
                                     <div>
@@ -415,8 +453,14 @@ export default function AdminDashboard() {
                                             ))}
                                         </div>
                                     </div>
-                                    <button type="submit" disabled={isLoading} className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50">
-                                        {isLoading ? <span className="flex items-center justify-center"><Loader2 className="animate-spin mr-2" /> Adding...</span> : 'Add Product'}
+                                    <button type="submit" disabled={isLoading} className={`w-full py-3 rounded-lg font-semibold transition disabled:opacity-50 ${isEditing ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-black hover:bg-gray-800'} text-white`}>
+                                        {isLoading ? (
+                                            <span className="flex items-center justify-center">
+                                                <Loader2 className="animate-spin mr-2" /> {isEditing ? 'Updating...' : 'Adding...'}
+                                            </span>
+                                        ) : (
+                                            isEditing ? 'Update Product' : 'Add Product'
+                                        )}
                                     </button>
                                 </div>
                             </form>
@@ -435,9 +479,14 @@ export default function AdminDashboard() {
                                                 <p className="text-sm text-gray-500">{product.category} • KES {product.price}</p>
                                             </div>
                                         </div>
-                                        <button onClick={() => handleDeleteProduct(product.id || product._id)} className="p-2 text-red-500 hover:bg-red-50 rounded">
-                                            <Trash2 size={20} />
-                                        </button>
+                                        <div className="flex space-x-2">
+                                            <button onClick={() => handleEditProduct(product)} className="p-2 text-indigo-500 hover:bg-indigo-50 rounded transition-colors">
+                                                <Edit size={20} />
+                                            </button>
+                                            <button onClick={() => handleDeleteProduct(product.id || product._id)} className="p-2 text-red-500 hover:bg-red-50 rounded transition-colors">
+                                                <Trash2 size={20} />
+                                            </button>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -473,9 +522,9 @@ export default function AdminDashboard() {
                                                     <p className="text-sm text-gray-500">{new Date(order.createdAt).toLocaleString()}</p>
                                                 </div>
                                                 <span className={`px-3 py-1 rounded-full text-xs font-black uppercase shadow-sm ${order.status === 'delivered' ? 'bg-green-100 text-green-800 border border-green-200' :
-                                                        order.status === 'cancelled' ? 'bg-red-100 text-red-800 border border-red-200' :
-                                                            order.status === 'enroute' ? 'bg-orange-100 text-orange-800 border border-orange-200' :
-                                                                'bg-indigo-100 text-indigo-800 border border-indigo-200'
+                                                    order.status === 'cancelled' ? 'bg-red-100 text-red-800 border border-red-200' :
+                                                        order.status === 'enroute' ? 'bg-orange-100 text-orange-800 border border-orange-200' :
+                                                            'bg-indigo-100 text-indigo-800 border border-indigo-200'
                                                     }`}>
                                                     {order.status}
                                                 </span>
