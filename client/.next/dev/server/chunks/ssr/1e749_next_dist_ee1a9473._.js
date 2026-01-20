@@ -2607,6 +2607,7 @@ const tree = [
         ]
     },
     {
+        metadata: {},
         "layout": [
             __TURBOPACK__layout__$23$0__,
             "[project]/client/app/layout.js"

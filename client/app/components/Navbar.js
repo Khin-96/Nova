@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
-import { Search, ShoppingBag, User, Menu, ChevronDown, X } from 'lucide-react';
+import { Search, ShoppingBag, User, Menu, ChevronDown, X, Truck } from 'lucide-react';
 
 export default function Navbar() {
     const { cartCount, setIsCartOpen } = useCart();
@@ -104,9 +104,12 @@ export default function Navbar() {
                             {cartCount}
                         </span>
                     </button>
-                    <button className="p-2 text-gray-600 hover:text-black">
-                        <User size={20} />
-                    </button>
+                    <Link href="/track-order" className="p-2 text-gray-600 hover:text-black group relative">
+                        <Truck size={20} />
+                        <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                            Track Order
+                        </span>
+                    </Link>
                     <button
                         className="md:hidden p-2 text-gray-600 hover:text-black"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -159,7 +162,10 @@ export default function Navbar() {
                             </div>
                         </div>
                         <Link href="/shop#about" className="font-medium text-gray-700 hover:text-black py-2">About</Link>
-                        <Link href="/shop#contact" className="font-medium text-gray-700 hover:text-black py-2">Contact</Link>
+                        <Link href="/contact" className="font-medium text-gray-700 hover:text-black py-2">Contact</Link>
+                        <Link href="/track-order" className="font-medium text-gray-700 hover:text-black py-2 flex items-center">
+                            <Truck size={18} className="mr-2" /> Track Order
+                        </Link>
                     </nav>
                 </div>
             </div>

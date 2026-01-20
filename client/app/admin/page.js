@@ -170,16 +170,38 @@ export default function AdminDashboard() {
         }
     };
 
-    const handleUpdateOrder = async (id, action) => {
-        if (!confirm(`Mark as ${action}?`)) return;
+    const handleUpdateOrder = async (id, action, value) => {
+        let confirmMsg = `Mark as ${action}?`;
+        if (action === 'status') confirmMsg = `Update order status to ${value}?`;
+
+        if (!confirm(confirmMsg)) return;
+
         try {
-            const endpoint = action === 'delivered' ? `/api/orders/${id}/deliver` : `/api/orders/${id}`;
-            const method = action === 'delete' ? 'DELETE' : 'PATCH';
+            let endpoint;
+            let method = 'PATCH';
+            let body = null;
+
+            if (action === 'delivered') {
+                endpoint = `/api/orders/${id}/deliver`;
+            } else if (action === 'delete') {
+                endpoint = `/api/orders/${id}`;
+                method = 'DELETE';
+            } else if (action === 'status') {
+                endpoint = `/api/orders/${id}/status`;
+                body = JSON.stringify({ status: value });
+            } else {
+                endpoint = `/api/orders/${id}`;
+            }
 
             const res = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method,
-                headers: { 'x-admin-api-key': localStorage.getItem('ADMIN_API_KEY') || '' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-admin-api-key': localStorage.getItem('ADMIN_API_KEY') || ''
+                },
+                body
             });
+
             if (!res.ok) throw new Error('Action failed');
 
             showMessage(`Order ${action === 'delete' ? 'deleted' : 'updated'}`);
@@ -426,12 +448,12 @@ export default function AdminDashboard() {
                 {/* ORDERS TAB */}
                 {activeTab === 'orders' && (
                     <div className="space-y-6">
-                        <div className="flex space-x-2 mb-6 overflow-x-auto pb-2">
-                            {['all', 'pending', 'delivered'].map(status => (
+                        <div className="flex space-x-2 mb-6 overflow-x-auto pb-2 scrollbar-none">
+                            {['all', 'pending', 'received', 'prepared', 'dispatched', 'enroute', 'delivered', 'cancelled'].map(status => (
                                 <button
                                     key={status}
                                     onClick={() => setOrderFilter(status)}
-                                    className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-colors ${orderFilter === status ? 'bg-indigo-600 text-white' : 'bg-white text-gray-600 border'}`}
+                                    className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-all whitespace-nowrap ${orderFilter === status ? 'bg-indigo-600 text-white shadow-md' : 'bg-white text-gray-600 border hover:bg-gray-50'}`}
                                 >
                                     {status}
                                 </button>
@@ -450,7 +472,11 @@ export default function AdminDashboard() {
                                                     <h3 className="font-bold text-lg">Order #{order.orderId || order._id.slice(-6)}</h3>
                                                     <p className="text-sm text-gray-500">{new Date(order.createdAt).toLocaleString()}</p>
                                                 </div>
-                                                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${order.status === 'delivered' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                                <span className={`px-3 py-1 rounded-full text-xs font-black uppercase shadow-sm ${order.status === 'delivered' ? 'bg-green-100 text-green-800 border border-green-200' :
+                                                        order.status === 'cancelled' ? 'bg-red-100 text-red-800 border border-red-200' :
+                                                            order.status === 'enroute' ? 'bg-orange-100 text-orange-800 border border-orange-200' :
+                                                                'bg-indigo-100 text-indigo-800 border border-indigo-200'
+                                                    }`}>
                                                     {order.status}
                                                 </span>
                                             </div>
@@ -484,15 +510,27 @@ export default function AdminDashboard() {
                                                 ))}
                                             </div>
 
-                                            <div className="flex justify-end space-x-3">
-                                                {order.status !== 'delivered' && (
-                                                    <button onClick={() => handleUpdateOrder(order._id, 'delivered')} className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
-                                                        <CheckCircle size={16} /> <span>Mark Delivered</span>
+                                            <div className="flex justify-between items-center bg-gray-50/50 p-4 rounded-xl border border-gray-100">
+                                                <div className="flex items-center gap-3">
+                                                    <span className="text-sm font-bold text-gray-400 uppercase tracking-tight">Status Update:</span>
+                                                    <select
+                                                        value={order.status}
+                                                        onChange={(e) => handleUpdateOrder(order._id, 'status', e.target.value)}
+                                                        className="px-3 py-1.5 border rounded-lg bg-white text-sm font-bold focus:ring-2 focus:ring-indigo-500 transition-all outline-none"
+                                                    >
+                                                        <option value="pending">Received (Pending)</option>
+                                                        <option value="prepared">Prepared</option>
+                                                        <option value="dispatched">Dispatched</option>
+                                                        <option value="enroute">En-Route</option>
+                                                        <option value="delivered">Delivered</option>
+                                                        <option value="cancelled">Cancelled</option>
+                                                    </select>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <button onClick={() => handleUpdateOrder(order._id, 'delete')} className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all" title="Delete Order">
+                                                        <Trash2 size={20} />
                                                     </button>
-                                                )}
-                                                <button onClick={() => handleUpdateOrder(order._id, 'delete')} className="flex items-center space-x-2 px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition">
-                                                    <Trash2 size={16} /> <span>Delete</span>
-                                                </button>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}

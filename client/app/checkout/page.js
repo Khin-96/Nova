@@ -22,6 +22,8 @@ export default function CheckoutPage() {
     const [isProcessing, setIsProcessing] = useState(false);
     const [message, setMessage] = useState({ text: '', type: '' });
     const [orderSuccess, setOrderSuccess] = useState(false);
+    const [paymentStatus, setPaymentStatus] = useState('idle'); // 'idle', 'pending', 'completed', 'cancelled'
+    const [activeOrderId, setActiveOrderId] = useState(null);
 
     const deliveryFee = deliveryLocation === 'other' ? DELIVERY_FEE_OTHER : 0;
     const finalTotal = cartTotal + deliveryFee;
@@ -42,19 +44,60 @@ export default function CheckoutPage() {
                 return;
             }
             // 1. Create Order First
-            const orderId = await createOrderAfterPayment(mpesaPhone, "M-Pesa STK");
-            if (!orderId) return;
+            try {
+                const orderId = await createOrderAfterPayment(mpesaPhone, "M-Pesa STK");
+                if (!orderId) return;
+                setActiveOrderId(orderId);
 
-            // 2. Proceed with STK Push
-            await initiateStkPush(orderId);
+                // 2. Proceed with STK Push
+                await initiateStkPush(orderId);
 
-            // 3. Clear cart and show success (pending payment)
-            setOrderSuccess(true);
-            clearCart();
+                // 3. Start Polling for payment status
+                startPolling(orderId);
+            } catch (err) {
+                console.error("Checkout failed:", err);
+                setMessage({ text: "Checkout failed. Please try again.", type: "error" });
+            }
         } else {
             // Generate QR Code
             await generateQrCode();
         }
+    };
+
+    const startPolling = (orderId) => {
+        setPaymentStatus('pending');
+        let pollCount = 0;
+        const maxPolls = 30; // 30 times * 2 seconds = 60 seconds
+
+        const interval = setInterval(async () => {
+            pollCount++;
+            if (pollCount > maxPolls) {
+                clearInterval(interval);
+                setPaymentStatus('idle');
+                setMessage({ text: "Payment timeout. Please check your phone or try again.", type: "error" });
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/orders/${orderId}`);
+                const data = await res.json();
+
+                if (data.status === 'processing' || data.status === 'shipped' || data.status === 'delivered') {
+                    clearInterval(interval);
+                    setPaymentStatus('completed');
+                    setOrderSuccess(true);
+                    clearCart();
+                } else if (data.status === 'cancelled') {
+                    clearInterval(interval);
+                    setPaymentStatus('cancelled');
+                    setMessage({ text: "Payment was cancelled. Please try again.", type: "error" });
+                }
+            } catch (err) {
+                console.error("Polling error:", err);
+            }
+        }, 2000);
+
+        return () => clearInterval(interval);
     };
 
     const initiateStkPush = async (orderId) => {
@@ -74,8 +117,11 @@ export default function CheckoutPage() {
             setMessage({ text: "STK Push sent! Check your phone.", type: "success" });
 
         } catch (error) {
-            console.error(error);
-            setMessage({ text: `Error: ${error.message}`, type: "error" });
+            console.error("STK Push Error:", error);
+            const errorMsg = error.message?.includes("Cast to ObjectId")
+                ? "There was a technical issue identifying your order. Please try again or contact support."
+                : (error.message || "Payment initiation failed.");
+            setMessage({ text: errorMsg, type: "error" });
         } finally {
             setIsProcessing(false);
         }
@@ -284,11 +330,41 @@ export default function CheckoutPage() {
 
                             {message.text && (
                                 <motion.div
-                                    initial={{ opacity: 0, y: 10 }}
+                                    initial={{ opacity: 0, y: -20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className={`text-sm mt-4 text-center p-4 rounded-xl font-medium ${message.type === 'error' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}
+                                    className={`mt-4 overflow-hidden rounded-xl border ${message.type === 'error' ? 'bg-red-50 border-red-200' : 'bg-green-50 border-green-200'}`}
                                 >
-                                    {message.text}
+                                    <div className="p-4 flex items-start">
+                                        <div className="flex-shrink-0">
+                                            {message.type === 'error' ? (
+                                                <div className="bg-red-500 p-1.5 rounded-full">
+                                                    <Lock size={14} className="text-white" />
+                                                </div>
+                                            ) : (
+                                                <div className="bg-green-500 p-1.5 rounded-full">
+                                                    <CheckCircle size={14} className="text-white" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="ml-3">
+                                            <p className={`text-sm font-bold ${message.type === 'error' ? 'text-red-800' : 'text-green-800'}`}>
+                                                {message.type === 'error' ? 'Transaction Update' : 'Action Successful'}
+                                            </p>
+                                            <p className={`text-xs mt-0.5 ${message.type === 'error' ? 'text-red-600' : 'text-green-600'}`}>
+                                                {message.text} {message.type === 'error' && "Please try again."}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {message.type === 'error' && (
+                                        <div className="bg-red-100/50 px-4 py-2 border-t border-red-200">
+                                            <button
+                                                onClick={() => setMessage({ text: '', type: '' })}
+                                                className="text-xs font-bold text-red-700 hover:text-red-900 transition-colors"
+                                            >
+                                                Dismiss and Retry
+                                            </button>
+                                        </div>
+                                    )}
                                 </motion.div>
                             )}
                         </div>
