@@ -1,4 +1,8 @@
+"use client";
+import { useState, useEffect } from 'react';
 import { API_BASE_URL } from '@/lib/api';
+import StaticPageLayout from '../components/StaticPageLayout';
+import { Loader2, Briefcase, MapPin, Clock } from 'lucide-react';
 
 export default function CareersPage() {
     const [jobs, setJobs] = useState([]);
