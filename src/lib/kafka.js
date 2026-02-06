@@ -1,14 +1,24 @@
 const { Kafka } = require('kafkajs');
 
-// Initialize Kafka client
+const brokers = (process.env.KAFKA_BROKERS || process.env.RED_PANDA_BROKERS || process.env.REDPANDA_BROKERS || '')
+    .split(',')
+    .map(b => b.trim())
+    .filter(Boolean);
+const username = process.env.KAFKA_USERNAME || process.env.RED_PANDA_USER || process.env.KAFKA_USER_KHIN;
+const password = process.env.KAFKA_PASSWORD || process.env.RED_PANDA_SECRET || process.env.KAFKA_PASSWORD_KHIN;
+const saslMechanism = (process.env.KAFKA_SASL_MECHANISM || process.env.RED_PANDA_SASL_MECHANISM
+    || (process.env.RED_PANDA_USER || process.env.RED_PANDA_SECRET ? 'scram-sha-256' : 'plain'))
+    .toLowerCase();
+
+// Initialize Kafka client (Redpanda is Kafka-compatible)
 const kafka = new Kafka({
     clientId: 'nova-wear-backend',
-    brokers: (process.env.KAFKA_BROKERS || '').split(','),
+    brokers,
     ssl: process.env.KAFKA_SSL === 'true',
-    sasl: process.env.KAFKA_USERNAME ? {
-        mechanism: 'plain',
-        username: process.env.KAFKA_USERNAME,
-        password: process.env.KAFKA_PASSWORD,
+    sasl: username ? {
+        mechanism: saslMechanism,
+        username,
+        password,
     } : undefined,
 });
 
@@ -20,8 +30,8 @@ let isProducerConnected = false;
 // Connect Producer
 async function connectProducer() {
     try {
-        if (!process.env.KAFKA_BROKERS) {
-            console.warn('KAFKA_BROKERS not set. Kafka producer disabled.');
+        if (!brokers.length) {
+            console.warn('KAFKA_BROKERS/RED_PANDA_BROKERS not set. Kafka producer disabled.');
             return;
         }
         await producer.connect();
@@ -30,6 +40,16 @@ async function connectProducer() {
     } catch (error) {
         console.error('Error connecting Kafka Producer:', error);
     }
+}
+
+function getKafkaHealth() {
+    return {
+        brokersConfigured: brokers.length > 0,
+        sslEnabled: process.env.KAFKA_SSL === 'true',
+        saslEnabled: Boolean(username),
+        saslMechanism,
+        producerConnected: isProducerConnected,
+    };
 }
 
 // Send Event
@@ -53,7 +73,7 @@ async function sendEvent(topic, data) {
 // Connect Consumer
 async function connectConsumer(topic, handler) {
     try {
-        if (!process.env.KAFKA_BROKERS) return;
+        if (!brokers.length) return;
 
         await consumer.connect();
         await consumer.subscribe({ topic, fromBeginning: false });
@@ -75,4 +95,4 @@ async function connectConsumer(topic, handler) {
     }
 }
 
-module.exports = { connectProducer, sendEvent, connectConsumer };
+module.exports = { connectProducer, sendEvent, connectConsumer, getKafkaHealth };

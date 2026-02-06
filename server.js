@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 5000;
 
 // Service Initialization
 const { trackUserAction, getRecommendations } = require("./src/services/recommendationService");
-const { connectProducer } = require("./src/lib/kafka");
+const { connectProducer, getKafkaHealth } = require("./src/lib/kafka");
 
 // Connect Kafka (fire and forget connectivity check)
 connectProducer();
@@ -129,6 +129,10 @@ app.get("/api/recommendations", async (req, res) => {
     console.error("Rec error:", err);
     res.status(500).json({ msg: "Error getting recommendations" });
   }
+});
+
+app.get("/health/kafka", (req, res) => {
+  res.json(getKafkaHealth());
 });
 
 // Catch-all route for Single Page Applications (SPA)

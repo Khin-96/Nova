@@ -1,3 +1,7 @@
 {
-  "/shop/page": "app/shop/page.js"
+  "/careers/page": "app/careers/page.js",
+  "/page": "app/page.js",
+  "/shipping-returns/page": "app/shipping-returns/page.js",
+  "/shop/page": "app/shop/page.js",
+  "/sustainability/page": "app/sustainability/page.js"
 }
