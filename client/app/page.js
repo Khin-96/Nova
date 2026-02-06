@@ -11,7 +11,7 @@ export default function Intro() {
                 playsInline
                 className="absolute inset-0 h-full w-full object-cover opacity-70"
             >
-                <source src="/NOVA_WEAR_HERO.mp4" type="video/mp4" />
+                <source src="/Hero_video.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
 
