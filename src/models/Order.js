@@ -15,8 +15,9 @@ const orderSchema = new mongoose.Schema({
     subtotal: { type: Number, required: true },
     deliveryFee: { type: Number, required: true },
     total: { type: Number, required: true },
-    status: { type: String, default: 'pending', enum: ['pending', 'received', 'prepared', 'dispatched', 'enroute', 'delivered', 'cancelled'] },
+    status: { type: String, default: 'pending', enum: ['pending', 'processing', 'received', 'prepared', 'dispatched', 'enroute', 'delivered', 'cancelled'] },
     mpesaReceiptNumber: { type: String },
+    paymentResult: { type: String },
     checkoutRequestId: { type: String },
     merchantRequestId: { type: String },
     createdAt: { type: Date, default: Date.now }

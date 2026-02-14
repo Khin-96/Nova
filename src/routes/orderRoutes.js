@@ -32,6 +32,8 @@ router.post('/', async (req, res) => {
     }
 });
 
+const { queryStkStatus } = require('../services/mpesaService');
+
 // @route   GET /api/orders/:orderId
 // @desc    Get order by orderId
 // @access  Public
@@ -40,11 +42,36 @@ router.get('/:orderId', async (req, res) => {
     console.log(`GET Order Request: ${orderId}`);
     try {
         // Use findOne with the specific orderId field to avoid _id casting
-        const order = await Order.findOne({ orderId: String(orderId) });
+        let order = await Order.findOne({ orderId: String(orderId) });
         if (!order) {
             console.warn(`Order ${orderId} not found.`);
             return res.status(404).json({ message: 'Order not found' });
         }
+
+        // Proactive Status Query: If order is still pending and has a checkoutRequestId, check M-Pesa
+        if (order.status === 'pending' && order.checkoutRequestId) {
+            try {
+                console.log(`Proactively querying status for Order: ${orderId}...`);
+                const data = await queryStkStatus(order.checkoutRequestId);
+
+                if (data && data.ResponseCode === "0") {
+                    const { ResultCode, ResultDesc } = data;
+                    order.paymentResult = ResultDesc;
+                    if (ResultCode === "0") {
+                        order.status = 'processing';
+                        console.log(`Order ${orderId} updated to 'processing' during GET request.`);
+                    } else {
+                        order.status = 'cancelled';
+                        console.log(`Order ${orderId} updated to 'cancelled' (ResultCode: ${ResultCode}) during GET request.`);
+                    }
+                    await order.save();
+                }
+            } catch (error) {
+                console.warn(`Proactive query failed for ${orderId}:`, error.message);
+                // Continue to return the order even if query fails
+            }
+        }
+
         res.json(order);
     } catch (err) {
         console.error(`Error fetching order ${orderId}:`, err);

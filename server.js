@@ -132,7 +132,12 @@ app.get("/api/recommendations", async (req, res) => {
 });
 
 app.get("/health/kafka", (req, res) => {
-  res.json(getKafkaHealth());
+  try {
+    res.json(getKafkaHealth());
+  } catch (err) {
+    console.error("Kafka health error:", err);
+    res.status(500).json({ message: "Internal Server Error", error: err.message });
+  }
 });
 
 // Catch-all route for Single Page Applications (SPA)

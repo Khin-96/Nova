@@ -90,7 +90,8 @@ export default function CheckoutPage() {
                 } else if (data.status === 'cancelled') {
                     clearInterval(interval);
                     setPaymentStatus('cancelled');
-                    setMessage({ text: "Payment was cancelled. Please try again.", type: "error" });
+                    const errorMsg = data.paymentResult || "Payment was cancelled. Please try again.";
+                    setMessage({ text: errorMsg, type: "error" });
                 }
             } catch (err) {
                 console.error("Polling error:", err);

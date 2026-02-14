@@ -1,7 +1,6 @@
 {
-  "/careers/page": "app/careers/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/checkout/page": "app/checkout/page.js",
   "/page": "app/page.js",
-  "/shipping-returns/page": "app/shipping-returns/page.js",
-  "/shop/page": "app/shop/page.js",
-  "/sustainability/page": "app/sustainability/page.js"
+  "/shop/page": "app/shop/page.js"
 }

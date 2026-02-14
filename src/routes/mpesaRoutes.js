@@ -4,35 +4,7 @@ const Order = require("../models/Order");
 
 const router = express.Router();
 
-// --- Helper Function to Get Daraja API Token (Placeholder) ---
-// In a real app, you should cache this token until it expires
-async function getDarajaToken() {
-  const consumerKey = process.env.MPESA_CONSUMER_KEY;
-  const consumerSecret = process.env.MPESA_CONSUMER_SECRET;
-  // Force Sandbox for debugging if .env fails
-  const authUrl = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
-  // const authUrl = process.env.MPESA_AUTH_URL || "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
-
-  if (!consumerKey || !consumerSecret) {
-    console.error("MPESA_CONSUMER_KEY or MPESA_CONSUMER_SECRET not set in .env");
-    throw new Error("M-Pesa API credentials missing.");
-  }
-
-  const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString("base64");
-
-  try {
-    const response = await axios.get(authUrl, {
-      headers: {
-        Authorization: `Basic ${auth}`,
-      },
-    });
-    return response.data.access_token;
-  } catch (error) {
-    console.error("Error getting Daraja token:", error.response ? error.response.data : error.message);
-    console.error("Full error object:", error);
-    throw new Error("Failed to authenticate with Daraja API.");
-  }
-}
+const { getDarajaToken, queryStkStatus } = require("../services/mpesaService");
 
 // --- STK Push Endpoint ---
 // @route   POST /api/mpesa/stkpush
@@ -140,13 +112,64 @@ router.post("/stkpush", async (req, res) => {
   }
 });
 
+// --- Query Status Endpoint ---
+// @route   POST /api/mpesa/query
+// @desc    Check the status of an M-Pesa STK Push
+// @access  Public
+router.post("/query", async (req, res) => {
+  const { checkoutRequestId } = req.body;
+
+  if (!checkoutRequestId) {
+    return res.status(400).json({ msg: "CheckoutRequestID is required." });
+  }
+
+  try {
+    const data = await queryStkStatus(checkoutRequestId);
+    console.log("M-Pesa Query Response:", data);
+
+    // Update order status if query was successful (ResponseCode === "0")
+    if (data && data.ResponseCode === "0") {
+      const { ResultCode, ResultDesc } = data;
+
+      const order = await Order.findOne({ checkoutRequestId });
+      if (order) {
+        order.paymentResult = ResultDesc; // Store feedback from Safaricom
+        if (ResultCode === "0") {
+          // Success
+          order.status = 'processing';
+          console.log(`Order ${order.orderId} status updated to 'processing' via query.`);
+        } else {
+          // Any non-zero code is a failure (cancelled, insufficient funds, etc.)
+          order.status = 'cancelled';
+          console.log(`Order ${order.orderId} status updated to 'cancelled' (ResultCode: ${ResultCode}) via query.`);
+        }
+        await order.save();
+      }
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error querying M-Pesa status:", error.message);
+    res.status(500).json({
+      msg: "Failed to query status from M-Pesa.",
+      error: error.message
+    });
+  }
+});
+
 // --- Callback Endpoint (Example) ---
 // @route   POST /api/mpesa/callback
 // @desc    Receive M-Pesa payment confirmation/result
 // @access  Public (from Safaricom)
 router.post("/callback", async (req, res) => {
   console.log("--- M-Pesa Callback Received ---");
-  const callbackData = req.body.Body.stkCallback;
+  const callbackData = req.body && req.body.Body && req.body.Body.stkCallback;
+
+  if (!callbackData) {
+    console.error("Invalid callback data received");
+    return res.status(400).json({ ResultCode: 1, ResultDesc: "Invalid payload" });
+  }
+
   console.log(JSON.stringify(callbackData, null, 2));
 
   const { MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc, CallbackMetadata } = callbackData;
@@ -156,19 +179,23 @@ router.post("/callback", async (req, res) => {
     const order = await Order.findOne({ checkoutRequestId: CheckoutRequestID });
 
     if (order) {
+      order.paymentResult = ResultDesc; // Store feedback
       if (ResultCode === 0) {
         // Success: Extract Receipt Number
-        const metadata = CallbackMetadata.Item;
-        const receiptItem = metadata.find(item => item.Name === 'MpesaReceiptNumber');
-        const receiptNumber = receiptItem ? receiptItem.Value : 'N/A';
+        let receiptNumber = 'N/A';
+        if (CallbackMetadata && CallbackMetadata.Item) {
+          const metadata = CallbackMetadata.Item;
+          const receiptItem = metadata.find(item => item.Name === 'MpesaReceiptNumber');
+          receiptNumber = receiptItem ? receiptItem.Value : 'N/A';
+        }
 
         order.status = 'processing'; // Mark as paid
         order.mpesaReceiptNumber = receiptNumber;
-        console.log(`Order ${order.orderId} paid successfully. Receipt: ${receiptNumber}`);
+        console.log(`Order ${order.orderId} paid successfully via callback. Receipt: ${receiptNumber}`);
       } else {
         // Failure or Cancellation
         order.status = 'cancelled';
-        console.log(`Order ${order.orderId} payment failed/cancelled. Result: ${ResultCode} (${ResultDesc})`);
+        console.log(`Order ${order.orderId} payment failed/cancelled via callback. Result: ${ResultCode} (${ResultDesc})`);
       }
       await order.save();
     } else {
