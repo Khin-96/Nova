@@ -31,16 +31,26 @@ connectProducer();
 // Middleware
 
 // Define allowed origins for CORS
-const allowedOrigins = [
+const defaultAllowedOrigins = [
   "https://novawearkenya.netlify.app",
   "https://novawear.onrender.com",
   "http://localhost:3000",
   "http://127.0.0.1:3000"
 ];
+const envOrigins = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL || "")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+const allowedOrigins = Array.from(new Set([...defaultAllowedOrigins, ...envOrigins]));
 
 // Configure CORS options
 const corsOptions = {
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    // Allow non-browser clients and same-origin requests without Origin header.
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error("Not allowed by CORS"));
+  },
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionsSuccessStatus: 204
 };

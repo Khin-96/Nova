@@ -63,6 +63,16 @@ router.post("/stkpush", async (req, res) => {
   };
 
   try {
+    console.log("STK push request init", {
+      orderId: orderId || null,
+      amount: parsedAmount,
+      phonePrefix: formattedPhone.slice(0, 6),
+      stkPushUrl,
+      callbackURL,
+      hasShortCode: Boolean(businessShortCode),
+      hasPasskey: Boolean(passkey),
+    });
+
     const token = await getDarajaToken();
 
     const response = await axios.post(stkPushUrl, payload, {
@@ -107,8 +117,15 @@ router.post("/stkpush", async (req, res) => {
     }
 
   } catch (error) {
-    console.error("Error initiating STK Push:", error.response ? error.response.data : error.message);
-    res.status(500).json({ msg: error.message || "Server error during M-Pesa request." });
+    const status = error.response?.status;
+    const data = error.response?.data;
+    console.error("Error initiating STK Push", {
+      status,
+      data,
+      message: error.message,
+      stkPushUrl,
+    });
+    res.status(500).json({ msg: "Payment failed. Please try again." });
   }
 });
 

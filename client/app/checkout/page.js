@@ -47,7 +47,8 @@ export default function CheckoutPage() {
                 const orderId = await createOrderAfterPayment(mpesaPhone, "M-Pesa STK");
                 if (!orderId) return;
                 // 2. Proceed with STK Push
-                await initiateStkPush(orderId);
+                const stkSent = await initiateStkPush(orderId);
+                if (!stkSent) return;
 
                 // 3. Start Polling for payment status
                 startPolling(orderId);
@@ -113,10 +114,12 @@ export default function CheckoutPage() {
             if (!res.ok) throw new Error(data.msg || 'Payment failed');
 
             // Wait for polling/callback result before showing any final payment outcome.
+            return true;
 
         } catch (error) {
             console.error("STK Push Error:", error);
             setMessage({ text: "Payment failed. Please try again.", type: "error" });
+            return false;
         } finally {
             setIsProcessing(false);
         }

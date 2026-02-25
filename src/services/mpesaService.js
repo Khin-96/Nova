@@ -19,7 +19,15 @@ async function getDarajaToken() {
         });
         return response.data.access_token;
     } catch (error) {
-        console.error("Error getting Daraja token:", error.response ? error.response.data : error.message);
+        const status = error.response?.status;
+        const data = error.response?.data;
+        console.error("Daraja token request failed", {
+            status,
+            data,
+            authUrl,
+            hasConsumerKey: Boolean(consumerKey),
+            hasConsumerSecret: Boolean(consumerSecret),
+        });
         throw new Error("Failed to authenticate with Daraja API.");
     }
 }
