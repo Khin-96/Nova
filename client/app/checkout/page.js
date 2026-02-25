@@ -100,7 +100,7 @@ export default function CheckoutPage() {
 
     const initiateStkPush = async (orderId) => {
         setIsProcessing(true);
-        setMessage({ text: "Processing payment...", type: "info" });
+        setMessage({ text: '', type: '' });
 
         try {
             const res = await fetch(`${API_BASE_URL}/api/mpesa/stkpush`, {
@@ -112,7 +112,7 @@ export default function CheckoutPage() {
             const data = await res.json();
             if (!res.ok) throw new Error(data.msg || 'Payment failed');
 
-            setMessage({ text: "STK Push sent! Check your phone.", type: "success" });
+            // Wait for polling/callback result before showing any final payment outcome.
 
         } catch (error) {
             console.error("STK Push Error:", error);
@@ -323,7 +323,7 @@ export default function CheckoutPage() {
                                 )}
                             </button>
 
-                            {message.text && (
+                            {(message.type === 'success' || message.type === 'error') && message.text && (
                                 <motion.div
                                     initial={{ opacity: 0, y: -20 }}
                                     animate={{ opacity: 1, y: 0 }}
