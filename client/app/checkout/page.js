@@ -47,11 +47,11 @@ export default function CheckoutPage() {
                 const orderId = await createOrderAfterPayment(mpesaPhone, "M-Pesa STK");
                 if (!orderId) return;
                 // 2. Proceed with STK Push
-                const stkSent = await initiateStkPush(orderId);
-                if (!stkSent) return;
+                const stkResult = await initiateStkPush(orderId);
+                if (!stkResult?.ok || !stkResult.checkoutRequestId) return;
 
                 // 3. Start Polling for payment status
-                startPolling(orderId);
+                startPolling(orderId, stkResult.checkoutRequestId);
             } catch (err) {
                 console.error("Checkout failed:", err);
                 setMessage({ text: "Checkout failed. Please try again.", type: "error" });
@@ -62,7 +62,7 @@ export default function CheckoutPage() {
         }
     };
 
-    const startPolling = (orderId) => {
+    const startPolling = (orderId, checkoutRequestId) => {
         setPaymentStatus('pending');
         let pollCount = 0;
         const maxPolls = 30; // 30 times * 2 seconds = 60 seconds
@@ -77,16 +77,27 @@ export default function CheckoutPage() {
             }
 
             try {
-                const res = await fetch(`${API_BASE_URL}/api/orders/${orderId}`);
+                const res = await fetch(`${API_BASE_URL}/api/mpesa/query`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ checkoutRequestId }),
+                });
                 const data = await res.json();
+                if (!res.ok) return;
 
-                if (data.status === 'processing' || data.status === 'shipped' || data.status === 'delivered') {
+                const responseCode = String(data?.ResponseCode ?? '');
+                const resultCodeRaw = data?.ResultCode;
+                const resultCode = resultCodeRaw !== undefined && resultCodeRaw !== null
+                    ? String(resultCodeRaw)
+                    : null;
+
+                if (responseCode === '0' && resultCode === '0') {
                     clearInterval(interval);
                     setPaymentStatus('completed');
                     setMessage({ text: "Payment successful", type: "success" });
                     setOrderSuccess(true);
                     clearCart();
-                } else if (data.status === 'cancelled') {
+                } else if (responseCode === '0' && resultCode !== null && resultCode !== '0') {
                     clearInterval(interval);
                     setPaymentStatus('cancelled');
                     setMessage({ text: "Payment failed. Please try again.", type: "error" });
@@ -114,12 +125,12 @@ export default function CheckoutPage() {
             if (!res.ok) throw new Error(data.msg || 'Payment failed');
 
             // Wait for polling/callback result before showing any final payment outcome.
-            return true;
+            return { ok: true, checkoutRequestId: data?.data?.CheckoutRequestID || null };
 
         } catch (error) {
             console.error("STK Push Error:", error);
             setMessage({ text: "Payment failed. Please try again.", type: "error" });
-            return false;
+            return { ok: false, checkoutRequestId: null };
         } finally {
             setIsProcessing(false);
         }
@@ -312,10 +323,10 @@ export default function CheckoutPage() {
                             {/* Pay Button */}
                             <button
                                 onClick={handleMpesaCheckout}
-                                disabled={isProcessing}
+                                disabled={isProcessing || paymentStatus === 'pending'}
                                 className={`w-full text-white font-bold py-4 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all duration-200 flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed shadow-lg text-lg ${paymentMethod === 'stk' ? 'bg-green-600' : 'bg-blue-600'}`}
                             >
-                                {isProcessing ? (
+                                {isProcessing || paymentStatus === 'pending' ? (
                                     <span className="flex items-center"><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3" /> Processing...</span>
                                 ) : (
                                     <>

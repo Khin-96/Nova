@@ -142,7 +142,13 @@ router.post("/query", async (req, res) => {
 
   try {
     const data = await queryStkStatus(checkoutRequestId);
-    console.log("M-Pesa Query Response:", data);
+    console.log("M-Pesa Query Status", {
+      checkoutRequestId,
+      responseCode: data?.ResponseCode,
+      responseDescription: data?.ResponseDescription,
+      resultCode: data?.ResultCode,
+      resultDesc: data?.ResultDesc,
+    });
 
     // Update order status if query was successful (ResponseCode === "0")
     if (data && String(data.ResponseCode) === "0") {
