@@ -1,4 +1,5 @@
-export const API_BASE_URL = "https://nova-backend-htzd.onrender.com"; // Forced production URL
+export const API_BASE_URL =
+    process.env.NEXT_PUBLIC_API_URL || "https://nova-5v59.onrender.com";
 
 export async function fetchWithFallback(endpoint) {
     try {
