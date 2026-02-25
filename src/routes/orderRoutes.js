@@ -54,10 +54,10 @@ router.get('/:orderId', async (req, res) => {
                 console.log(`Proactively querying status for Order: ${orderId}...`);
                 const data = await queryStkStatus(order.checkoutRequestId);
 
-                if (data && data.ResponseCode === "0") {
+                if (data && String(data.ResponseCode) === "0") {
                     const { ResultCode, ResultDesc } = data;
                     order.paymentResult = ResultDesc;
-                    if (ResultCode === "0") {
+                    if (String(ResultCode) === "0") {
                         order.status = 'processing';
                         console.log(`Order ${orderId} updated to 'processing' during GET request.`);
                     } else {

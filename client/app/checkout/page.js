@@ -23,7 +23,6 @@ export default function CheckoutPage() {
     const [message, setMessage] = useState({ text: '', type: '' });
     const [orderSuccess, setOrderSuccess] = useState(false);
     const [paymentStatus, setPaymentStatus] = useState('idle'); // 'idle', 'pending', 'completed', 'cancelled'
-    const [activeOrderId, setActiveOrderId] = useState(null);
 
     const deliveryFee = deliveryLocation === 'other' ? DELIVERY_FEE_OTHER : 0;
     const finalTotal = cartTotal + deliveryFee;
@@ -47,8 +46,6 @@ export default function CheckoutPage() {
             try {
                 const orderId = await createOrderAfterPayment(mpesaPhone, "M-Pesa STK");
                 if (!orderId) return;
-                setActiveOrderId(orderId);
-
                 // 2. Proceed with STK Push
                 await initiateStkPush(orderId);
 
@@ -74,7 +71,7 @@ export default function CheckoutPage() {
             if (pollCount > maxPolls) {
                 clearInterval(interval);
                 setPaymentStatus('idle');
-                setMessage({ text: "Payment timeout. Please check your phone or try again.", type: "error" });
+                setMessage({ text: "Payment failed. Please try again.", type: "error" });
                 return;
             }
 
@@ -85,13 +82,13 @@ export default function CheckoutPage() {
                 if (data.status === 'processing' || data.status === 'shipped' || data.status === 'delivered') {
                     clearInterval(interval);
                     setPaymentStatus('completed');
+                    setMessage({ text: "Payment successful", type: "success" });
                     setOrderSuccess(true);
                     clearCart();
                 } else if (data.status === 'cancelled') {
                     clearInterval(interval);
                     setPaymentStatus('cancelled');
-                    const errorMsg = data.paymentResult || "Payment was cancelled. Please try again.";
-                    setMessage({ text: errorMsg, type: "error" });
+                    setMessage({ text: "Payment failed. Please try again.", type: "error" });
                 }
             } catch (err) {
                 console.error("Polling error:", err);
@@ -119,10 +116,7 @@ export default function CheckoutPage() {
 
         } catch (error) {
             console.error("STK Push Error:", error);
-            const errorMsg = error.message?.includes("Cast to ObjectId")
-                ? "There was a technical issue identifying your order. Please try again or contact support."
-                : (error.message || "Payment initiation failed.");
-            setMessage({ text: errorMsg, type: "error" });
+            setMessage({ text: "Payment failed. Please try again.", type: "error" });
         } finally {
             setIsProcessing(false);
         }
@@ -208,8 +202,8 @@ export default function CheckoutPage() {
                         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                             <CheckCircle size={40} className="text-green-600" />
                         </div>
-                        <h1 className="text-2xl font-bold mb-2">Order Confirmed!</h1>
-                        <p className="text-gray-600 mb-8">Thank you for your purchase. Your order has been received and is being processed.</p>
+                        <h1 className="text-2xl font-bold mb-2">Payment successful</h1>
+                        <p className="text-gray-600 mb-8">Your payment was successful.</p>
                         <button
                             onClick={() => router.push('/shop')}
                             className="w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-gray-800 transition-colors"
@@ -349,10 +343,10 @@ export default function CheckoutPage() {
                                         </div>
                                         <div className="ml-3">
                                             <p className={`text-sm font-bold ${message.type === 'error' ? 'text-red-800' : 'text-green-800'}`}>
-                                                {message.type === 'error' ? 'Transaction Update' : 'Action Successful'}
+                                                {message.type === 'error' ? 'Payment failed' : 'Payment successful'}
                                             </p>
                                             <p className={`text-xs mt-0.5 ${message.type === 'error' ? 'text-red-600' : 'text-green-600'}`}>
-                                                {message.text} {message.type === 'error' && "Please try again."}
+                                                {message.text}
                                             </p>
                                         </div>
                                     </div>

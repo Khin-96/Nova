@@ -128,13 +128,13 @@ router.post("/query", async (req, res) => {
     console.log("M-Pesa Query Response:", data);
 
     // Update order status if query was successful (ResponseCode === "0")
-    if (data && data.ResponseCode === "0") {
+    if (data && String(data.ResponseCode) === "0") {
       const { ResultCode, ResultDesc } = data;
 
       const order = await Order.findOne({ checkoutRequestId });
       if (order) {
         order.paymentResult = ResultDesc; // Store feedback from Safaricom
-        if (ResultCode === "0") {
+        if (String(ResultCode) === "0") {
           // Success
           order.status = 'processing';
           console.log(`Order ${order.orderId} status updated to 'processing' via query.`);
@@ -180,7 +180,7 @@ router.post("/callback", async (req, res) => {
 
     if (order) {
       order.paymentResult = ResultDesc; // Store feedback
-      if (ResultCode === 0) {
+      if (String(ResultCode) === "0") {
         // Success: Extract Receipt Number
         let receiptNumber = 'N/A';
         if (CallbackMetadata && CallbackMetadata.Item) {
