@@ -11,7 +11,6 @@ import { API_BASE_URL } from '@/lib/api';
 const DELIVERY_FEE_OTHER = 450;
 
 export default function CheckoutPage() {
-    console.log("DEBUG: V12_FORCED_FIX_ACTIVE - API_BASE_URL is", API_BASE_URL);
     const { cart, cartTotal, clearCart } = useCart();
     const router = useRouter();
 
@@ -82,22 +81,42 @@ export default function CheckoutPage() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ checkoutRequestId }),
                 });
-                const data = await res.json();
-                if (!res.ok) return;
+                if (res.ok) {
+                    const data = await res.json();
+                    const responseCode = String(data?.ResponseCode ?? '');
+                    const resultCodeRaw = data?.ResultCode;
+                    const resultCode = resultCodeRaw !== undefined && resultCodeRaw !== null
+                        ? String(resultCodeRaw)
+                        : null;
 
-                const responseCode = String(data?.ResponseCode ?? '');
-                const resultCodeRaw = data?.ResultCode;
-                const resultCode = resultCodeRaw !== undefined && resultCodeRaw !== null
-                    ? String(resultCodeRaw)
-                    : null;
+                    if (responseCode === '0' && resultCode === '0') {
+                        clearInterval(interval);
+                        setPaymentStatus('completed');
+                        setMessage({ text: "Payment successful", type: "success" });
+                        setOrderSuccess(true);
+                        clearCart();
+                        return;
+                    }
 
-                if (responseCode === '0' && resultCode === '0') {
+                    if (responseCode === '0' && resultCode !== null && resultCode !== '0') {
+                        clearInterval(interval);
+                        setPaymentStatus('cancelled');
+                        setMessage({ text: "Payment failed. Please try again.", type: "error" });
+                        return;
+                    }
+                }
+
+                // Fallback path if Daraja query endpoint fails/doesn't return final state:
+                const orderRes = await fetch(`${API_BASE_URL}/api/orders/${orderId}`);
+                if (!orderRes.ok) return;
+                const orderData = await orderRes.json();
+                if (orderData.status === 'processing' || orderData.status === 'shipped' || orderData.status === 'delivered') {
                     clearInterval(interval);
                     setPaymentStatus('completed');
                     setMessage({ text: "Payment successful", type: "success" });
                     setOrderSuccess(true);
                     clearCart();
-                } else if (responseCode === '0' && resultCode !== null && resultCode !== '0') {
+                } else if (orderData.status === 'cancelled') {
                     clearInterval(interval);
                     setPaymentStatus('cancelled');
                     setMessage({ text: "Payment failed. Please try again.", type: "error" });
