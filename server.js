@@ -150,11 +150,14 @@ app.get("/health/kafka", (req, res) => {
   }
 });
 
-// Catch-all route for Single Page Applications (SPA)
-// This serves index.html for any route not handled by static files or API routes.
-// It should come AFTER static middleware and API routes.
+// Root health endpoint for backend service checks.
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+// Fallback for unknown routes.
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.status(404).json({ message: "Not Found" });
 });
 
 // Global Error Handler
