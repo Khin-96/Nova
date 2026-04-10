@@ -16,6 +16,10 @@ export const metadata = {
     alternates: {
         canonical: '/',
     },
+    icons: {
+        icon: '/Misa_Favicon.png',
+        apple: '/Misa_Favicon.png',
+    },
     openGraph: {
         title: 'Misa Studio - Contemporary Style for Modern Life',
         description: 'Discover the latest trends in fashion with Misa Studio. Premium quality clothing for the modern individual.',

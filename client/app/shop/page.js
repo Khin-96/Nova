@@ -100,7 +100,7 @@ function HeroWrapper() {
                         <Link href="/shop" className="px-10 py-4 bg-white text-black font-bold hover:bg-gray-200 transition duration-300 rounded-full text-center">
                             SHOP NOW
                         </Link>
-                        <a href="https://instagram.com/khin.szn" target="_blank" className="px-10 py-4 border-2 border-white text-white font-bold hover:bg-white hover:text-black transition duration-300 rounded-full text-center">
+                        <a href="https://www.instagram.com/misastudio.ke/" target="_blank" className="px-10 py-4 border-2 border-white text-white font-bold hover:bg-white hover:text-black transition duration-300 rounded-full text-center">
                             INSTAGRAM
                         </a>
                     </div>
