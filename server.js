@@ -57,7 +57,7 @@ const corsOptions = {
 };
 
 // Apply CORS middleware
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Security Headers
 app.use(helmet());
