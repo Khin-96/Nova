@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
 
       // Email options
       let mailOptions = {
-        from: `"Nova Wear Contact Form" <${process.env.EMAIL_USER}>`, // Sender address (must be your authenticated email)
+        from: `"Misa Studio Contact Form" <${process.env.EMAIL_USER}>`, // Sender address (must be your authenticated email)
         to: "novawearke@gmail.com", // Receiver address (your specified email)
         replyTo: email, // Set reply-to to the user's email
         subject: `New Contact Form Submission from ${name}`, // Subject line

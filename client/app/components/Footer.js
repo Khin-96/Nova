@@ -4,7 +4,7 @@ export default function Footer() {
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
-                        <h3 className="text-lg font-bold mb-4">NOVA WEAR</h3>
+                        <h3 className="text-lg font-bold mb-4">MISA STUDIO</h3>
                         <p className="text-gray-600 mb-4">Contemporary clothing for modern lifestyles.</p>
                         <div className="flex space-x-4">
                             <a href="#" className="text-gray-600 hover:text-black"><i className="fab fa-facebook-f"></i></a>
@@ -43,7 +43,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="border-t border-gray-200 mt-10 pt-6">
-                    <p className="text-gray-600 text-center">&copy; 2025 Nova Wear. All rights reserved.</p>
+                    <p className="text-gray-600 text-center">&copy; 2025 Misa Studio. All rights reserved.</p>
                 </div>
             </div>
         </footer>

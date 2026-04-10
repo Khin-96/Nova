@@ -6,27 +6,27 @@ import CartSidebar from '@/app/components/CartSidebar';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-    title: 'Nova Wear - Contemporary Style for Modern Life',
-    description: 'Discover the latest trends in fashion with Nova Wear. Premium quality clothing including cargo pants, crop tops, dresses, and accessories. Free delivery in Mombasa & Kilifi.',
-    keywords: ['fashion', 'clothing', 'Kenya fashion', 'cargo pants', 'crop tops', 'dresses', 'streetwear', 'Nova Wear', 'Mombasa fashion'],
-    authors: [{ name: 'Nova Wear' }],
-    creator: 'Nova Wear',
-    publisher: 'Nova Wear',
+    title: 'Misa Studio - Contemporary Style for Modern Life',
+    description: 'Discover the latest trends in fashion with Misa Studio. Premium quality clothing including cargo pants, crop tops, dresses, and accessories. Free delivery in Mombasa & Kilifi.',
+    keywords: ['fashion', 'clothing', 'Kenya fashion', 'cargo pants', 'crop tops', 'dresses', 'streetwear', 'Misa Studio', 'Mombasa fashion'],
+    authors: [{ name: 'Misa Studio' }],
+    creator: 'Misa Studio',
+    publisher: 'Misa Studio',
     metadataBase: new URL('https://novawears.tech'),
     alternates: {
         canonical: '/',
     },
     openGraph: {
-        title: 'Nova Wear - Contemporary Style for Modern Life',
-        description: 'Discover the latest trends in fashion with Nova Wear. Premium quality clothing for the modern individual.',
+        title: 'Misa Studio - Contemporary Style for Modern Life',
+        description: 'Discover the latest trends in fashion with Misa Studio. Premium quality clothing for the modern individual.',
         url: 'https://novawears.tech',
-        siteName: 'Nova Wear',
+        siteName: 'Misa Studio',
         images: [
             {
                 url: '/og-image.jpg',
                 width: 1200,
                 height: 630,
-                alt: 'Nova Wear Fashion Collection',
+                alt: 'Misa Studio Fashion Collection',
             },
         ],
         locale: 'en_KE',
@@ -34,8 +34,8 @@ export const metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Nova Wear - Contemporary Style for Modern Life',
-        description: 'Discover the latest trends in fashion with Nova Wear.',
+        title: 'Misa Studio - Contemporary Style for Modern Life',
+        description: 'Discover the latest trends in fashion with Misa Studio.',
         images: ['/og-image.jpg'],
     },
     robots: {

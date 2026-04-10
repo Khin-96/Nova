@@ -17,7 +17,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "novawear_products", // Optional: folder name in Cloudinary
+    folder: "misastudio_products", // Optional: folder name in Cloudinary
     allowed_formats: ["jpg", "png", "jpeg", "gif"], // Specify allowed image formats
     // transformation: [{ width: 500, height: 500, crop: "limit" }] // Optional: transformations
   },

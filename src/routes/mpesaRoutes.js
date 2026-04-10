@@ -58,8 +58,8 @@ router.post("/stkpush", async (req, res) => {
     PartyB: businessShortCode, // Your Paybill or Till Number
     PhoneNumber: formattedPhone, // Customer phone number again
     CallBackURL: callbackURL,
-    AccountReference: "NovaWearOrder", // Customize as needed (e.g., Order ID)
-    TransactionDesc: "Payment for Nova Wear items", // Customize
+    AccountReference: "MisaStudioOrder", // Customize as needed (e.g., Order ID)
+    TransactionDesc: "Payment for Misa Studio items", // Customize
   };
 
   try {
@@ -253,7 +253,7 @@ router.post("/qrcode", async (req, res) => {
     const token = await getDarajaToken();
 
     const payload = {
-      MerchantName: "Nova Wear", // Customize
+      MerchantName: "Misa Studio", // Customize
       RefNo: refNo,
       Amount: parseInt(amount),
       TrxCode: "BG", // Buy Goods

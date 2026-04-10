@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hideAllSections();
     const aboutSection = document.getElementById("about-section-content");
     if (aboutSection) aboutSection.classList.remove("hidden");
-    updatePageTitle("About Us - Nova Wear");
+    updatePageTitle("About Us - Misa Studio");
   }
 
   // --- Cart Functions ---
@@ -360,7 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".bg-gray-900")?.classList.remove("hidden");
     document.querySelector(".py-16.bg-gray-50")?.classList.remove("hidden");
     loadFeaturedProducts();
-    updatePageTitle("Nova Wear - We Style You");
+    updatePageTitle("Misa Studio - We Style You");
   }
 
   async function loadFeaturedProducts() {
@@ -393,7 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
     categoryTitleEl.textContent = categoryTitle;
     productGrid.innerHTML = 
       `<div class="animate-pulse bg-gray-200 rounded-lg h-80 col-span-full md:col-span-2 lg:col-span-4"></div>`;
-    updatePageTitle(`Shop ${categoryTitle} - Nova Wear`);
+    updatePageTitle(`Shop ${categoryTitle} - Misa Studio`);
 
     try {
       const endpoint = category === "all" ? "/api/products" :
@@ -520,7 +520,7 @@ document.addEventListener("DOMContentLoaded", () => {
     categoryTitleEl.textContent = `Search Results for "${query}"`;
     productGrid.innerHTML = 
       `<div class="animate-pulse bg-gray-200 rounded-lg h-80 col-span-full md:col-span-2 lg:col-span-4"></div>`;
-    updatePageTitle(`Search Results for "${query}" - Nova Wear`);
+    updatePageTitle(`Search Results for "${query}" - Misa Studio`);
 
     try {
       const response = await fetchWithFallback(`${API_BASE_URL}/api/products?search=${encodeURIComponent(query)}`);

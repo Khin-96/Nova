@@ -18,7 +18,7 @@ export default function Intro() {
             {/* Content Overlay */}
             <div className="relative z-10 flex h-full flex-col items-center justify-center text-center px-4">
                 <h1 className="mb-6 text-6xl font-bold tracking-tight md:text-8xl fade-in">
-                    NOVA WEAR
+                    MISA STUDIO
                 </h1>
                 <p className="mb-10 text-xl font-light tracking-wide md:text-2xl fade-in delay-1">
                     CONTEMPORARY STYLE FOR MODERN LIFE
@@ -33,7 +33,7 @@ export default function Intro() {
             </div>
 
             <div className="absolute bottom-10 left-0 right-0 text-center text-white/50 text-sm fade-in delay-3">
-                &copy; 2025 Nova Wear
+                &copy; 2025 Misa Studio
             </div>
         </div>
     );

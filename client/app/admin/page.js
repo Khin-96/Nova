@@ -56,7 +56,7 @@ export default function AdminDashboard() {
         location: 'Mombasa',
         description: '',
         requirements: '', // text area, split by newline
-        contactEmail: 'careers@novawear.co.ke'
+        contactEmail: 'careers@misastudio.tech'
     });
 
     // Analytics State
@@ -268,7 +268,7 @@ export default function AdminDashboard() {
             if (!res.ok) throw new Error('Failed to post job');
 
             showMessage('Job posted successfully');
-            setNewJob({ title: '', type: 'Full-time', location: 'Mombasa', description: '', requirements: '', contactEmail: 'careers@novawear.co.ke' });
+            setNewJob({ title: '', type: 'Full-time', location: 'Mombasa', description: '', requirements: '', contactEmail: 'careers@misastudio.tech' });
             fetchJobs();
         } catch (err) {
             showMessage(err.message, 'error');
@@ -316,7 +316,7 @@ export default function AdminDashboard() {
             {/* Sidebar */}
             <aside className="w-64 bg-white shadow-md hidden md:flex flex-col">
                 <div className="p-6 border-b">
-                    <h1 className="text-2xl font-bold text-gray-800">NOVA ADMIN</h1>
+                    <h1 className="text-2xl font-bold text-gray-800">MISA STUDIO ADMIN</h1>
                 </div>
                 <nav className="p-4 space-y-2 flex-grow">
                     <button

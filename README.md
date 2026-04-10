@@ -1,4 +1,4 @@
-# Nova Wear - E-Commerce Platform
+# Misa Studio - E-Commerce Platform
 
 A modern, full-stack e-commerce platform for contemporary fashion, built with Next.js and Express.
 
@@ -187,4 +187,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📧 Contact
 
-For support or inquiries, visit [novawears.tech](https://novawears.tech)
+For support or inquiries, visit [misastudio.tech](https://novawears.tech)

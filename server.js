@@ -83,7 +83,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // MongoDB Connection
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/nova-wear";
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/misa-studio";
 
 mongoose.connect(MONGO_URI)
   .then(() => console.log("MongoDB Connected..."))

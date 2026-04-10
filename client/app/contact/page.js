@@ -9,7 +9,7 @@ export default function ContactPage() {
                     <h3 className="text-xl font-bold mb-4">Get in Touch</h3>
                     <p className="mb-4">We'd love to hear from you. Whether you have a question about our products, orders, or just want to say hi.</p>
                     <div className="space-y-2">
-                        <p><strong>Email:</strong> support@novawear.co.ke</p>
+                        <p><strong>Email:</strong> support@misastudio.tech</p>
                         <p><strong>Phone:</strong> +254 700 000 000</p>
                         <p><strong>Address:</strong> Mombasa, Kenya</p>
                     </div>
