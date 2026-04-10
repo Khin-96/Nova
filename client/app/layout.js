@@ -10,9 +10,9 @@ export const metadata = {
     description: 'Discover the latest trends in fashion with Misa Studio. Premium quality clothing including cargo pants, crop tops, dresses, and accessories. Free delivery in Mombasa & Kilifi.',
     keywords: ['fashion', 'clothing', 'Kenya fashion', 'cargo pants', 'crop tops', 'dresses', 'streetwear', 'Misa Studio', 'Mombasa fashion'],
     authors: [{ name: 'Misa Studio' }],
-    creator: 'Misa Studio',
-    publisher: 'Misa Studio',
-    metadataBase: new URL('https://novawears.tech'),
+    creator: 'Hinzano',
+    publisher: 'Hinzano',
+    metadataBase: new URL('https://misastudioshop.netlify.app'),
     alternates: {
         canonical: '/',
     },
@@ -54,7 +54,7 @@ export const metadata = {
         },
     },
     verification: {
-        google: 'your-google-verification-code', // Add your Google Search Console verification code
+        google: 'Tn20NyLw5A7btwFIUpw0KVKQ5XHzJV3U_iIf82Qskg8',
     },
 };
 
