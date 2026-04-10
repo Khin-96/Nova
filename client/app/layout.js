@@ -23,7 +23,7 @@ export const metadata = {
     openGraph: {
         title: 'Misa Studio - Contemporary Style for Modern Life',
         description: 'Discover the latest trends in fashion with Misa Studio. Premium quality clothing for the modern individual.',
-        url: 'https://novawears.tech',
+        url: 'https://misastudioshop.netlify.app',
         siteName: 'Misa Studio',
         images: [
             {
