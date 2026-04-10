@@ -32,6 +32,7 @@ connectProducer();
 
 // Define allowed origins for CORS
 const defaultAllowedOrigins = [
+  "https://misastudioshop.netlify.app",
   "https://novawearkenya.netlify.app",
   "https://novawear.onrender.com",
   "http://localhost:3000",
