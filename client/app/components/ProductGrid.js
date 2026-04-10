@@ -22,14 +22,8 @@ export default function ProductGrid({ category = 'all', searchQuery = '', onAddT
 
             let data = await fetchWithFallback(endpoint);
 
-            // Client-side fallback if API returns empty/error or for search simulation if API handles it differently
-            if (!data || data.length === 0) {
-                data = FALLBACK_PRODUCTS.filter(p => {
-                    const matchesCategory = category === 'all' || p.category === category;
-                    const matchesSearch = !searchQuery || p.name.toLowerCase().includes(searchQuery.toLowerCase());
-                    return matchesCategory && matchesSearch;
-                });
-            }
+            let data = await fetchWithFallback(endpoint);
+            setProducts(data || []);
 
             setProducts(data);
             setLoading(false);
