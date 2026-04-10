@@ -21,11 +21,7 @@ export default function ProductGrid({ category = 'all', searchQuery = '', onAddT
             }
 
             let data = await fetchWithFallback(endpoint);
-
-            let data = await fetchWithFallback(endpoint);
             setProducts(data || []);
-
-            setProducts(data);
             setLoading(false);
         }
         loadProducts();
